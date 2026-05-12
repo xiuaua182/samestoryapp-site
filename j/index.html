@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Você foi convidado | SameSTORY</title>
+
+  <!-- Preview no WhatsApp / Telegram -->
+  <meta property="og:title" content="Você foi convidado para ler junto!">
+  <meta property="og:description" content="Pai e filho na mesma história, mesmo distantes.">
+  <meta property="og:type" content="website">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #FAF4EE;
+      color: #1B2D4F;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .emoji { font-size: 64px; margin-bottom: 16px; }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #1B2D4F;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .subtitulo {
+      font-size: 15px;
+      color: #8D7E6E;
+      margin-bottom: 36px;
+    }
+
+    .codigo-label {
+      font-size: 13px;
+      color: #8D7E6E;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .codigo {
+      font-size: 56px;
+      font-weight: 900;
+      color: #1A7A5E;
+      letter-spacing: 14px;
+      margin-bottom: 36px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .botao {
+      display: block;
+      background: #1A7A5E;
+      color: white;
+      padding: 18px 32px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 700;
+      box-shadow: 0 4px 16px rgba(26,122,94,0.3);
+      transition: transform 0.1s, box-shadow 0.1s;
+      margin-bottom: 16px;
+    }
+
+    .botao:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(26,122,94,0.3);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: #C8C4BD;
+      font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E5E2DD;
+    }
+
+    .info {
+      color: #8D7E6E;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .codigo-manual {
+      display: inline-block;
+      background: #F0EBE3;
+      color: #1A7A5E;
+      font-weight: 800;
+      font-family: 'Courier New', monospace;
+      padding: 4px 12px;
+      border-radius: 8px;
+      letter-spacing: 4px;
+      font-size: 18px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">📖</div>
+    <h1>Você foi convidado para ler junto!</h1>
+    <p class="subtitulo">Pai e filho na mesma história, mesmo distantes.</p>
+
+    <div class="codigo-label">Código da sessão</div>
+    <div class="codigo" id="codigo">—</div>
+
+    <a class="botao" href="#" id="botaoAbrir">Abrir no SameSTORY</a>
+
+    <div class="divider">ou</div>
+
+    <p class="info">
+      Ainda não tem o app?<br>
+      <a class="botao" href="https://play.google.com/store/apps/details?id=com.samestoryapp.app"
+         style="margin-top: 12px; background: #2A6DB5;
+                box-shadow: 0 4px 16px rgba(42,109,181,0.3);">
+        Instalar SameSTORY
+      </a>
+    </p>
+
+    <div class="divider">ou</div>
+
+    <p class="info">
+      Com o app aberto, digite o código:<br>
+      <span class="codigo-manual" id="codigoManual">—</span>
+    </p>
+  </div>
+
+  <script>
+    // Extrai o código da URL: /j/A3 → 'A3'
+    const partes = window.location.pathname.split('/').filter(Boolean);
+    // partes = ['j', 'A3'] ou ['A3'] dependendo de como o 404 serviu
+    const codigo = (partes[partes.length - 1] || '').toUpperCase();
+
+    if (codigo && codigo !== 'J') {
+      document.getElementById('codigo').textContent = codigo;
+      document.getElementById('codigoManual').textContent = codigo;
+
+      // Link que tenta abrir o app diretamente via deep link.
+      // Se o app estiver instalado, o Android intercepta.
+      // Se não estiver, cai na Play Store (fallback do botão Instalar).
+      document.getElementById('botaoAbrir').href =
+        'https://samestoryapp.com/j/' + codigo;
+    }
+  </script>
+</body>
+</html>
