@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.samestoryapp.app",
+      "sha256_cert_fingerprints": [
+        "15:5F:D6:B6:60:F1:0B:3A:EB:06:18:2D:44:9B:F3:E2:24:28:C2:AA:29:EA:91:A2:DD:BD:A7:E0:A8:62:BA:C6"
+      ]
+    }
+  }
+]
