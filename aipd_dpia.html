@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AIPD / DPIA — SameSTORY (Na Mesma Estória)</title>
+<meta name="description" content="Relatório de Impacto à Proteção de Dados Pessoais (AIPD/RIPD - LGPD) / Data Protection Impact Assessment (DPIA - UK GDPR) do aplicativo SameSTORY.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde-pai:#1A7A5E;
+    --azul-filho:#2A6DB5;
+    --coral:#E8604C;
+    --dourado:#D4A340;
+    --bege:#FAF4EE;
+    --tinta:#23312c;
+    --tinta-suave:#54635c;
+    --linha:#e7ddd2;
+    --branco:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:var(--bege);
+    color:var(--tinta);
+    line-height:1.65;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--verde-pai);}
+  .langbar{
+    background:var(--branco);
+    border-bottom:1px solid var(--linha);
+    padding:10px 20px;
+    text-align:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+  }
+  .langbar a{
+    margin:0 10px;
+    font-weight:700;
+    text-decoration:none;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:28px 22px 80px;}
+  header.doc{
+    border-bottom:3px solid var(--verde-pai);
+    padding-bottom:14px;
+    margin-bottom:8px;
+  }
+  h1{font-size:26px;line-height:1.25;margin:8px 0 4px;color:var(--verde-pai);}
+  h2{font-size:21px;margin:34px 0 8px;color:var(--verde-pai);border-top:1px solid var(--linha);padding-top:22px;}
+  h3{font-size:17px;margin:20px 0 6px;color:var(--tinta);}
+  .sub{color:var(--tinta-suave);font-size:14px;}
+  .data{color:var(--tinta-suave);font-size:14px;margin-top:4px;}
+  .ficha{
+    background:var(--branco);
+    border:1px solid var(--linha);
+    border-radius:12px;
+    padding:14px 18px;
+    margin:16px 0;
+  }
+  .ficha table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  .ficha td{padding:6px 6px;vertical-align:top;border-bottom:1px solid var(--linha);}
+  .ficha tr:last-child td{border-bottom:none;}
+  .ficha td:first-child{font-weight:700;width:38%;color:var(--tinta);}
+  table.riscos{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;}
+  table.riscos th,table.riscos td{border:1px solid var(--linha);padding:9px 10px;text-align:left;vertical-align:top;}
+  table.riscos th{background:var(--verde-pai);color:#fff;font-weight:700;}
+  table.riscos tr:nth-child(even) td{background:var(--branco);}
+  .tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12.5px;font-weight:700;}
+  .baixo{background:rgba(78,203,161,.18);color:#1f7a5e;}
+  .medio{background:rgba(212,163,64,.20);color:#8a6310;}
+  ul,ol{padding-left:22px;}
+  li{margin:4px 0;}
+  .nota{
+    background:rgba(232,96,76,.08);
+    border:1px solid rgba(232,96,76,.35);
+    border-radius:12px;
+    padding:12px 16px;
+    margin:18px 0;
+    font-size:14.5px;
+  }
+  .sep{height:0;border-top:2px dashed var(--linha);margin:60px 0 0;}
+  code{background:#efe7db;padding:1px 5px;border-radius:5px;font-size:13.5px;}
+  footer{margin-top:40px;color:var(--tinta-suave);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+
+<div class="langbar">
+  <a href="#pt">🇧🇷 Português</a> |
+  <a href="#en">🇬🇧 English</a> |
+  <a href="#es">🇪🇸 Español</a>
+</div>
+
+<div class="wrap">
+
+<!-- ============================ PORTUGUÊS ============================ -->
+<section id="pt">
+  <header class="doc">
+    <div class="sub">Documento de conformidade · uso interno</div>
+    <h1>Relatório de Impacto à Proteção de Dados Pessoais (RIPD/AIPD)</h1>
+    <div class="sub">SameSTORY — “Na Mesma Estória” · aplicativo de leitura compartilhada à distância</div>
+    <div class="data">Versão 1.1 · Última atualização: 02/07/2026 · Referência regulatória: LGPD (Lei 13.709/2018) e ECA Digital (Lei 15.211/2025)</div>
+  </header>
+
+  <div class="nota">
+    <strong>Natureza do documento.</strong> Este é um relatório técnico de impacto, elaborado pelo responsável pelo aplicativo. Não constitui parecer jurídico. Recomenda-se revisão por advogado(a) de direito digital antes do lançamento em União Europeia, Índia e Brasil.
+  </div>
+
+  <h2>1. Identificação</h2>
+  <div class="ficha">
+    <table>
+      <tr><td>Aplicativo</td><td>SameSTORY — “Na Mesma Estória” (ID Google Play: <code>com.samestoryapp.app</code>)</td></tr>
+      <tr><td>Finalidade</td><td>Permitir que um adulto leia uma história em voz alta enquanto a criança acompanha, em tempo real, as ilustrações sincronizadas em outro aparelho.</td></tr>
+      <tr><td>Controlador</td><td>Responsável pelo aplicativo SameSTORY (desenvolvedor independente).</td></tr>
+      <tr><td>Contato / Encarregado</td><td><a href="mailto:samestoryapp@gmail.com">samestoryapp@gmail.com</a></td></tr>
+      <tr><td>Público</td><td>Famílias. O aparelho da criança é provisionado por um adulto responsável.</td></tr>
+      <tr><td>Sub-processadores</td><td>Google (Firebase), Agora (voz P2P, sem gravação), RevenueCat (assinaturas), Google Play.</td></tr>
+    </table>
+  </div>
+
+  <h2>2. Descrição do tratamento</h2>
+  <p>O aplicativo conecta dois aparelhos pareados: o do adulto (“Reader”) e o da criança (“Sonhador”). O adulto pode usar o app de forma anônima ou criar conta (e-mail ou Google). A criança <strong>nunca</strong> faz login — usa apenas autenticação anônima do Firebase. O servidor conhece somente o pareamento anônimo de aparelhos e o estado efêmero da sessão de leitura. Recursos Premium (chamada de voz ao vivo) são contratados por assinatura, exclusivamente pelo adulto cadastrado.</p>
+  <p><strong>Modo solo (leitura sem pareamento).</strong> O aplicativo também oferece um modo em que o adulto navega e lê as histórias sozinho, sem parear o aparelho de uma criança e sem sessão em tempo real. Nesse modo não há qualquer tratamento de dado de criança — nenhum pareamento, presença ou sessão é criado. O modo existe para demonstração e avaliação do app (inclusive pela revisão da loja) e não altera o inventário de dados deste relatório.</p>
+
+  <h3>2.1. Princípios permanentes de proteção à criança</h3>
+  <ul>
+    <li><strong>A criança nunca faz login</strong> e não fornece nome, e-mail, foto ou data de nascimento ao servidor.</li>
+    <li><strong>Nenhum dado que identifique a criança como pessoa</strong> é enviado ao servidor. Nome e avatar do filho, quando usados, ficam apenas no aparelho do adulto.</li>
+    <li><strong>Zero rastreamento comportamental, perfilamento ou publicidade.</strong> Analytics em modo anônimo, com identificador de publicidade desativado.</li>
+    <li><strong>Presença é efêmera</strong> — estado pontual sobrescrito, nunca histórico ou linha do tempo de atividade.</li>
+    <li><strong>Áudio P2P nunca é gravado.</strong> O fornecedor de transporte (Agora) é declarado como sub-processador.</li>
+    <li><strong>Tudo é apagável</strong> — revogar/desparear o aparelho remove os rastros da criança no servidor.</li>
+    <li><strong>Minimização</strong> — na dúvida, não coletar.</li>
+  </ul>
+
+  <h2>3. Inventário de dados (resumo)</h2>
+  <table class="riscos">
+    <tr><th>Dado</th><th>Onde fica</th><th>Identifica a criança?</th><th>Tratamento</th></tr>
+    <tr><td>UID anônimo do aparelho da criança</td><td>Servidor</td><td>Pseudônimo</td><td>Mínimo irredutível; apagável</td></tr>
+    <tr><td>Token de notificação (FCM) do aparelho da criança</td><td>Servidor</td><td>Identificador de aparelho</td><td>Mínimo irredutível; apagável</td></tr>
+    <tr><td>Presença / estado de sessão</td><td>Servidor</td><td>Atividade pontual</td><td>Efêmero (sobrescrito)</td></tr>
+    <tr><td>Voz da chamada ao vivo</td><td>Trânsito (Agora)</td><td>Tangencia biometria</td><td>Não gravada; Premium; iniciada pelo adulto</td></tr>
+    <tr><td>Nome/avatar do filho (opcional)</td><td>Só no aparelho do adulto</td><td>Sim — por isso é local</td><td>Nunca enviado ao servidor</td></tr>
+    <tr><td>Conta do adulto (e-mail, nome opcional)</td><td>Servidor</td><td>Não (é do adulto)</td><td>Dado de adulto</td></tr>
+    <tr><td>Assinatura (estado Premium)</td><td>RevenueCat + Firestore</td><td>Não (é do adulto)</td><td>Dado de adulto; ver §5</td></tr>
+  </table>
+
+  <h2>4. Necessidade e proporcionalidade</h2>
+  <p>Cada dado tratado passa pelo critério: “é o mínimo irredutível para a função funcionar?”. O servidor não guarda nome, e-mail, foto, data de nascimento, localização ou contatos da criança. A leitura sincronizada exige apenas o pareamento anônimo de aparelhos e o estado efêmero da sessão. Esse desenho cumpre a régua regulatória mais rígida aplicável (Índia, DPDP: criança = menor de 18, vedado perfilar/rastrear) por <em>não coletar</em> dado pessoal da criança.</p>
+
+  <h2>5. Tratamento de billing (assinaturas) — dado de adulto</h2>
+  <p>O gerenciamento de assinaturas Premium usa o <strong>RevenueCat</strong> como sub-processador. Apenas dados de <strong>adultos cadastrados que assinam</strong> transitam: o identificador da conta do adulto (UID do Firebase, usado como <code>appUserID</code>) e o estado da assinatura. Medidas de mitigação:</p>
+  <ul>
+    <li><strong>“Opção A”:</strong> o usuário anônimo (aparelho da criança) <strong>nunca</strong> configura nem chama o SDK do RevenueCat — nem para ver preço. Só o adulto registrado toca o RevenueCat.</li>
+    <li><strong>Espelhamento no servidor:</strong> uma função na nuvem grava o estado da assinatura (<code>premiumUntil</code>) ignorando explicitamente identificadores anônimos.</li>
+    <li><strong>Regras do banco de dados</strong> impedem o cliente de alterar o campo de assinatura; só o servidor o escreve.</li>
+    <li><strong>Cancelamento fácil:</strong> a assinatura é gerenciada pela Google Play (cancelável a qualquer momento); o app oferece um link direto para a página de assinaturas e um botão de “restaurar compra”.</li>
+  </ul>
+  <p>Conclusão: o billing não coleta, não perfila e não compartilha qualquer dado da criança. É tratamento de dado de adulto, com finalidade de funcionalidade do app (não publicidade).</p>
+
+  <h2>6. Riscos identificados e mitigação</h2>
+  <table class="riscos">
+    <tr><th>Risco</th><th>Mitigação</th><th>Risco residual</th></tr>
+    <tr><td>Criança ser identificada ou perfilada</td><td>Sem login, sem PII, sem perfilamento; nome/avatar só no aparelho do adulto (P1–P3).</td><td><span class="tag baixo">Baixo</span></td></tr>
+    <tr><td>Monitoramento comportamental da criança via presença</td><td>Presença é estado pontual sobrescrito, nunca histórico (P6).</td><td><span class="tag baixo">Baixo</span></td></tr>
+    <tr><td>Captura/uso indevido de voz da criança</td><td>Áudio P2P não é gravado; Agora declarado como sub-processador; chamada Premium iniciada pelo adulto (P7).</td><td><span class="tag baixo">Baixo</span></td></tr>
+    <tr><td>Nome real vazar pelo apelido do aparelho</td><td>Rótulo neutro por padrão; apelido amigável fica local no aparelho do adulto.</td><td><span class="tag medio">Médio</span></td></tr>
+    <tr><td>Associação da criança a uma assinatura (billing)</td><td>Opção A: anônimo nunca toca o RevenueCat; servidor ignora IDs anônimos (§5).</td><td><span class="tag baixo">Baixo</span></td></tr>
+    <tr><td>Retenção indevida após o fim do uso</td><td>Revogar/desparear apaga os rastros da criança no servidor (P8).</td><td><span class="tag baixo">Baixo</span></td></tr>
+  </table>
+
+  <h2>7. Direitos dos titulares</h2>
+  <p>O responsável pode revogar o pareamento e acionar a exclusão dos dados da criança no servidor (UID anônimo, token de notificação, entrada do aparelho). Solicitações de confirmação, acesso, correção, anonimização, eliminação e portabilidade podem ser feitas por <a href="mailto:samestoryapp@gmail.com">samestoryapp@gmail.com</a>.</p>
+  <p>Até o lançamento público (nov/2026), o aplicativo passa a oferecer também, dentro do próprio app, um painel do responsável com as ações de revogar o pareamento e <strong>apagar em cascata os dados do Sonhador no servidor</strong> (UID anônimo, token de notificação e entrada do aparelho), sem depender do canal de e-mail.</p>
+
+  <h2>8. Marco legal aplicável</h2>
+  <table class="riscos">
+    <tr><th>Lei</th><th>Região</th><th>Régua</th></tr>
+    <tr><td>ECA Digital (Lei 15.211/2025)</td><td>Brasil</td><td>Criança/adolescente; AIPD obrigatória antes de lançar</td></tr>
+    <tr><td>LGPD (Lei 13.709/2018)</td><td>Brasil</td><td>Base legal, minimização, direitos do titular</td></tr>
+    <tr><td>COPPA (rev. 2025)</td><td>EUA</td><td>Menores de 13; consentimento parental verificável</td></tr>
+    <tr><td>GDPR + Children’s Code</td><td>UE / Reino Unido</td><td>13–16; padrão alto por padrão; DPIA</td></tr>
+    <tr><td>DPDP Act + Rules</td><td>Índia</td><td>Menores de 18; vedado rastrear/perfilar — a mais rígida</td></tr>
+    <tr><td>APPI + Payment Services Act</td><td>Japão</td><td>Cancelamento/reembolso fácil; consentimento de compra pelo adulto</td></tr>
+  </table>
+  <p><strong>Estratégia:</strong> projetar para a régua mais alta (Índia). Quem cumpre Índia + ECA Digital cumpre quase todo o resto.</p>
+
+  <h2>9. Conclusão</h2>
+  <p>O tratamento foi desenhado para minimizar o risco a menores ao <strong>não coletar</strong> dados pessoais da criança: a criança permanece anônima e não-perfilada, e tudo é apagável. O billing é dado de adulto e não toca a criança. Os riscos residuais identificados são, em sua maioria, <span class="tag baixo">baixos</span>, com um ponto <span class="tag medio">médio</span> (apelido do aparelho) já mitigado por padrão. Próxima revisão: ao ativar a média de avaliação da comunidade por estória (agregado de adultos) ou em qualquer mudança que amplie a coleta.</p>
+
+  <h2>10. Histórico de revisões</h2>
+  <table class="riscos">
+    <tr><th>Versão</th><th>Data</th><th>Mudança</th></tr>
+    <tr><td>1.0</td><td>23/06/2026</td><td>Versão inicial consolidada; inclui o tratamento de billing (RevenueCat como sub-processador) introduzido no S22.5.</td></tr>
+    <tr><td>1.1</td><td>02/07/2026</td><td>Revisão pós-plano de lançamento acelerado (BR nov/2026): inclusão do Modo solo (leitura do adulto sem pareamento — sem dado de criança, §2) e registro do painel do responsável com exclusão em cascata (§7). A média da comunidade (agregado de adultos) segue fora do escopo até ser ativada.</td></tr>
+  </table>
+</section>
+
+<div class="sep"></div>
+
+<!-- ============================ ENGLISH ============================ -->
+<section id="en">
+  <header class="doc">
+    <div class="sub">Compliance document · internal use</div>
+    <h1>Data Protection Impact Assessment (DPIA)</h1>
+    <div class="sub">SameSTORY — remote shared-reading application for families</div>
+    <div class="data">Version 1.1 · Last updated: 07/02/2026 · Regulatory reference: UK/EU GDPR, with cross-references to Brazil’s LGPD and India’s DPDP</div>
+  </header>
+
+  <div class="nota">
+    <strong>Nature of this document.</strong> This is a technical impact assessment prepared by the app’s controller. It is not legal advice. Review by a data-protection lawyer is recommended before launching in the European Union, India, and Brazil.
+  </div>
+
+  <h2>1. Identification</h2>
+  <div class="ficha">
+    <table>
+      <tr><td>Application</td><td>SameSTORY (Google Play ID: <code>com.samestoryapp.app</code>)</td></tr>
+      <tr><td>Purpose</td><td>Let an adult read a story aloud while a child follows the synchronized illustrations, in real time, on a separate device.</td></tr>
+      <tr><td>Controller</td><td>Owner of the SameSTORY application (independent developer).</td></tr>
+      <tr><td>Contact / DPO</td><td><a href="mailto:samestoryapp@gmail.com">samestoryapp@gmail.com</a></td></tr>
+      <tr><td>Audience</td><td>Families. The child’s device is provisioned by a responsible adult.</td></tr>
+      <tr><td>Sub-processors</td><td>Google (Firebase), Agora (P2P voice, not recorded), RevenueCat (subscriptions), Google Play.</td></tr>
+    </table>
+  </div>
+
+  <h2>2. Description of the processing</h2>
+  <p>The app links two paired devices: the adult’s (“Reader”) and the child’s (“Sonhador”). The adult may use the app anonymously or create an account (email or Google). The child <strong>never</strong> signs in — only Firebase anonymous authentication is used. The server knows only the anonymous device pairing and the ephemeral state of the reading session. Premium features (the live voice call) are obtained by subscription, exclusively by the registered adult.</p>
+  <p><strong>Solo mode (reading without pairing).</strong> The app also offers a mode in which the adult browses and reads stories alone, without pairing a child device and without a real-time session. In this mode there is no processing of child data whatsoever — no pairing, presence, or session is created. The mode exists for demonstration and evaluation of the app (including store review) and does not change the data inventory of this report.</p>
+
+  <h3>2.1. Permanent child-protection principles</h3>
+  <ul>
+    <li><strong>The child never signs in</strong> and provides no name, email, photo, or date of birth to the server.</li>
+    <li><strong>No data that identifies the child as a person</strong> is sent to the server. The child’s name and avatar, when used, stay only on the adult’s device.</li>
+    <li><strong>No behavioural tracking, profiling, or advertising.</strong> Analytics runs in anonymous mode, with the advertising identifier disabled.</li>
+    <li><strong>Presence is ephemeral</strong> — a point-in-time state that is overwritten, never an activity history or timeline.</li>
+    <li><strong>P2P audio is never recorded.</strong> The transport provider (Agora) is declared as a sub-processor.</li>
+    <li><strong>Everything is erasable</strong> — revoking/unpairing the device removes the child’s traces on the server.</li>
+    <li><strong>Minimisation</strong> — when in doubt, do not collect.</li>
+  </ul>
+
+  <h2>3. Data inventory (summary)</h2>
+  <table class="riscos">
+    <tr><th>Data</th><th>Where it lives</th><th>Identifies the child?</th><th>Handling</th></tr>
+    <tr><td>Child device’s anonymous UID</td><td>Server</td><td>Pseudonym</td><td>Irreducible minimum; erasable</td></tr>
+    <tr><td>Child device’s notification token (FCM)</td><td>Server</td><td>Device identifier</td><td>Irreducible minimum; erasable</td></tr>
+    <tr><td>Presence / session state</td><td>Server</td><td>Point-in-time activity</td><td>Ephemeral (overwritten)</td></tr>
+    <tr><td>Live call voice</td><td>In transit (Agora)</td><td>Borders on biometrics</td><td>Not recorded; Premium; adult-initiated</td></tr>
+    <tr><td>Child’s name/avatar (optional)</td><td>Adult’s device only</td><td>Yes — hence local-only</td><td>Never sent to the server</td></tr>
+    <tr><td>Adult account (email, optional name)</td><td>Server</td><td>No (it is the adult’s)</td><td>Adult data</td></tr>
+    <tr><td>Subscription (Premium state)</td><td>RevenueCat + Firestore</td><td>No (it is the adult’s)</td><td>Adult data; see §5</td></tr>
+  </table>
+
+  <h2>4. Necessity and proportionality</h2>
+  <p>Every piece of data meets the test: “is this the irreducible minimum needed for the function to work?”. The server stores no child name, email, photo, date of birth, location, or contacts. Synchronized reading requires only the anonymous device pairing and the ephemeral session state. This design satisfies the strictest applicable bar (India, DPDP: a child is anyone under 18, with profiling/tracking prohibited) by <em>not collecting</em> the child’s personal data.</p>
+
+  <h2>5. Billing (subscriptions) — adult data</h2>
+  <p>Premium subscription management uses <strong>RevenueCat</strong> as a sub-processor. Only data of <strong>registered adults who subscribe</strong> is processed: the adult’s account identifier (the Firebase UID, used as the <code>appUserID</code>) and the subscription state. Mitigations:</p>
+  <ul>
+    <li><strong>“Option A”:</strong> the anonymous user (the child’s device) <strong>never</strong> configures or calls the RevenueCat SDK — not even to view a price. Only the registered adult touches RevenueCat.</li>
+    <li><strong>Server mirroring:</strong> a cloud function records the subscription state (<code>premiumUntil</code>), explicitly ignoring anonymous identifiers.</li>
+    <li><strong>Database rules</strong> prevent the client from changing the subscription field; only the server writes it.</li>
+    <li><strong>Easy cancellation:</strong> the subscription is managed by Google Play (cancellable at any time); the app offers a direct link to the subscriptions page and a “restore purchase” button.</li>
+  </ul>
+  <p>Conclusion: billing does not collect, profile, or share any child data. It is adult-data processing for app-functionality purposes (not advertising).</p>
+
+  <h2>6. Risks identified and mitigation</h2>
+  <table class="riscos">
+    <tr><th>Risk</th><th>Mitigation</th><th>Residual risk</th></tr>
+    <tr><td>Child being identified or profiled</td><td>No login, no PII, no profiling; child name/avatar kept on the adult’s device only.</td><td><span class="tag baixo">Low</span></td></tr>
+    <tr><td>Behavioural monitoring of the child via presence</td><td>Presence is a point-in-time state, overwritten, never a history.</td><td><span class="tag baixo">Low</span></td></tr>
+    <tr><td>Misuse of the child’s voice</td><td>P2P audio is not recorded; Agora declared as sub-processor; Premium call is adult-initiated.</td><td><span class="tag baixo">Low</span></td></tr>
+    <tr><td>Real name leaking via the device nickname</td><td>Neutral label by default; friendly nickname stays local on the adult’s device.</td><td><span class="tag medio">Medium</span></td></tr>
+    <tr><td>Associating the child with a subscription (billing)</td><td>Option A: anonymous never touches RevenueCat; server ignores anonymous IDs (§5).</td><td><span class="tag baixo">Low</span></td></tr>
+    <tr><td>Undue retention after use ends</td><td>Revoking/unpairing erases the child’s traces on the server.</td><td><span class="tag baixo">Low</span></td></tr>
+  </table>
+
+  <h2>7. Data-subject rights</h2>
+  <p>The responsible adult can revoke pairing and trigger deletion of the child’s server-side data (anonymous UID, notification token, device entry). Requests for confirmation, access, correction, anonymisation, erasure, and portability can be made at <a href="mailto:samestoryapp@gmail.com">samestoryapp@gmail.com</a>.</p>
+  <p>By the public launch (Nov/2026), the app will also offer, inside the app itself, a guardian panel with the actions of revoking the pairing and <strong>cascading deletion of the Sonhador’s server-side data</strong> (anonymous UID, notification token, and device entry), without depending on the e-mail channel.</p>
+
+  <h2>8. Applicable legal framework</h2>
+  <table class="riscos">
+    <tr><th>Law</th><th>Region</th><th>Bar</th></tr>
+    <tr><td>ECA Digital (Law 15.211/2025)</td><td>Brazil</td><td>Children/adolescents; DPIA mandatory before launch</td></tr>
+    <tr><td>LGPD (Law 13.709/2018)</td><td>Brazil</td><td>Legal basis, minimisation, data-subject rights</td></tr>
+    <tr><td>COPPA (2025 rev.)</td><td>USA</td><td>Under 13; verifiable parental consent</td></tr>
+    <tr><td>GDPR + Children’s Code</td><td>EU / UK</td><td>13–16; high standard by default; DPIA</td></tr>
+    <tr><td>DPDP Act + Rules</td><td>India</td><td>Under 18; tracking/profiling prohibited — the strictest</td></tr>
+    <tr><td>APPI + Payment Services Act</td><td>Japan</td><td>Easy cancellation/refund; purchase consent by the adult</td></tr>
+  </table>
+  <p><strong>Strategy:</strong> design for the highest bar (India). Meeting India + ECA Digital covers almost everything else.</p>
+
+  <h2>9. Conclusion</h2>
+  <p>The processing is designed to minimise risk to minors by <strong>not collecting</strong> the child’s personal data: the child stays anonymous and unprofiled, and everything is erasable. Billing is adult data and does not touch the child. The identified residual risks are mostly <span class="tag baixo">low</span>, with one <span class="tag medio">medium</span> point (device nickname) already mitigated by default. Next review: when the community per-story rating average (an aggregate of adult ratings) is enabled, or on any change that broadens collection.</p>
+
+  <h2>10. Revision history</h2>
+  <table class="riscos">
+    <tr><th>Version</th><th>Date</th><th>Change</th></tr>
+    <tr><td>1.0</td><td>06/23/2026</td><td>Initial consolidated version; includes the billing processing (RevenueCat as sub-processor) introduced in S22.5.</td></tr>
+    <tr><td>1.1</td><td>07/02/2026</td><td>Review after the accelerated launch plan (BR Nov/2026): added Solo mode (adult reading without pairing — no child data, §2) and recorded the guardian panel with cascading deletion (§7). The community average (adult aggregate) remains out of scope until enabled.</td></tr>
+  </table>
+</section>
+
+<div class="sep"></div>
+
+<!-- ============================ ESPAÑOL ============================ -->
+<section id="es">
+  <header class="doc">
+    <div class="sub">Documento de cumplimiento · uso interno</div>
+    <h1>Evaluación de Impacto relativa a la Protección de Datos (EIPD/DPIA)</h1>
+    <div class="sub">SameSTORY — “En la Misma Historia” · aplicación de lectura compartida a distancia</div>
+    <div class="data">Versión 1.1 · Última actualización: 02/07/2026 · Referencia regulatoria: RGPD (UE/Reino Unido), con referencias a la LGPD de Brasil y la DPDP de la India</div>
+  </header>
+
+  <div class="nota">
+    <strong>Naturaleza del documento.</strong> Este es un informe técnico de impacto, elaborado por el responsable de la aplicación. No constituye asesoramiento jurídico. Se recomienda la revisión por un abogado de derecho digital antes del lanzamiento en la Unión Europea, la India y Brasil.
+  </div>
+
+  <h2>1. Identificación</h2>
+  <div class="ficha">
+    <table>
+      <tr><td>Aplicación</td><td>SameSTORY — “En la Misma Historia” (ID de Google Play: <code>com.samestoryapp.app</code>)</td></tr>
+      <tr><td>Finalidad</td><td>Permitir que un adulto lea un cuento en voz alta mientras el niño sigue, en tiempo real, las ilustraciones sincronizadas en otro dispositivo.</td></tr>
+      <tr><td>Responsable</td><td>Responsable de la aplicación SameSTORY (desarrollador independiente).</td></tr>
+      <tr><td>Contacto / DPO</td><td><a href="mailto:samestoryapp@gmail.com">samestoryapp@gmail.com</a></td></tr>
+      <tr><td>Público</td><td>Familias. El dispositivo del niño es configurado por un adulto responsable.</td></tr>
+      <tr><td>Subencargados</td><td>Google (Firebase), Agora (voz P2P, sin grabación), RevenueCat (suscripciones), Google Play.</td></tr>
+    </table>
+  </div>
+
+  <h2>2. Descripción del tratamiento</h2>
+  <p>La aplicación conecta dos dispositivos emparejados: el del adulto (“Reader”) y el del niño (“Sonhador”). El adulto puede usar la app de forma anónima o crear una cuenta (correo o Google). El niño <strong>nunca</strong> inicia sesión — solo se usa autenticación anónima de Firebase. El servidor conoce únicamente el emparejamiento anónimo de dispositivos y el estado efímero de la sesión de lectura. Las funciones Premium (la llamada de voz en vivo) se contratan por suscripción, exclusivamente por el adulto registrado.</p>
+  <p><strong>Modo solo (lectura sin emparejamiento).</strong> La aplicación también ofrece un modo en el que el adulto navega y lee los cuentos solo, sin emparejar el dispositivo de un niño y sin sesión en tiempo real. En ese modo no existe ningún tratamiento de datos del niño — no se crea emparejamiento, presencia ni sesión. El modo existe para demostración y evaluación de la app (incluida la revisión de la tienda) y no altera el inventario de datos de este informe.</p>
+
+  <h3>2.1. Principios permanentes de protección del niño</h3>
+  <ul>
+    <li><strong>El niño nunca inicia sesión</strong> y no proporciona nombre, correo, foto ni fecha de nacimiento al servidor.</li>
+    <li><strong>Ningún dato que identifique al niño como persona</strong> se envía al servidor. El nombre y el avatar del niño, cuando se usan, quedan solo en el dispositivo del adulto.</li>
+    <li><strong>Cero rastreo del comportamiento, elaboración de perfiles o publicidad.</strong> La analítica funciona en modo anónimo, con el identificador de publicidad desactivado.</li>
+    <li><strong>La presencia es efímera</strong> — un estado puntual que se sobrescribe, nunca un historial ni una línea de tiempo de actividad.</li>
+    <li><strong>El audio P2P nunca se graba.</strong> El proveedor de transporte (Agora) se declara como subencargado.</li>
+    <li><strong>Todo es borrable</strong> — revocar/desemparejar el dispositivo elimina los rastros del niño en el servidor.</li>
+    <li><strong>Minimización</strong> — en caso de duda, no recopilar.</li>
+  </ul>
+
+  <h2>3. Inventario de datos (resumen)</h2>
+  <table class="riscos">
+    <tr><th>Dato</th><th>Dónde reside</th><th>¿Identifica al niño?</th><th>Tratamiento</th></tr>
+    <tr><td>UID anónimo del dispositivo del niño</td><td>Servidor</td><td>Seudónimo</td><td>Mínimo irreducible; borrable</td></tr>
+    <tr><td>Token de notificación (FCM) del dispositivo del niño</td><td>Servidor</td><td>Identificador de dispositivo</td><td>Mínimo irreducible; borrable</td></tr>
+    <tr><td>Presencia / estado de sesión</td><td>Servidor</td><td>Actividad puntual</td><td>Efímero (sobrescrito)</td></tr>
+    <tr><td>Voz de la llamada en vivo</td><td>En tránsito (Agora)</td><td>Roza la biometría</td><td>No grabada; Premium; iniciada por el adulto</td></tr>
+    <tr><td>Nombre/avatar del niño (opcional)</td><td>Solo en el dispositivo del adulto</td><td>Sí — por eso es local</td><td>Nunca enviado al servidor</td></tr>
+    <tr><td>Cuenta del adulto (correo, nombre opcional)</td><td>Servidor</td><td>No (es del adulto)</td><td>Dato de adulto</td></tr>
+    <tr><td>Suscripción (estado Premium)</td><td>RevenueCat + Firestore</td><td>No (es del adulto)</td><td>Dato de adulto; ver §5</td></tr>
+  </table>
+
+  <h2>4. Necesidad y proporcionalidad</h2>
+  <p>Cada dato tratado pasa por el criterio: “¿es el mínimo irreducible para que la función funcione?”. El servidor no guarda nombre, correo, foto, fecha de nacimiento, ubicación ni contactos del niño. La lectura sincronizada solo requiere el emparejamiento anónimo de dispositivos y el estado efímero de la sesión. Este diseño cumple con el estándar regulatorio más estricto aplicable (India, DPDP: un niño es cualquier persona menor de 18 años, con prohibición de elaborar perfiles o rastrear) al <em>no recopilar</em> datos personales del niño.</p>
+
+  <h2>5. Tratamiento de billing (suscripciones) — dato de adulto</h2>
+  <p>La gestión de suscripciones Premium usa <strong>RevenueCat</strong> como subencargado. Solo se tratan datos de <strong>adultos registrados que se suscriben</strong>: el identificador de la cuenta del adulto (el UID de Firebase, usado como <code>appUserID</code>) y el estado de la suscripción. Medidas de mitigación:</p>
+  <ul>
+    <li><strong>“Opción A”:</strong> el usuario anónimo (el dispositivo del niño) <strong>nunca</strong> configura ni llama al SDK de RevenueCat — ni siquiera para ver un precio. Solo el adulto registrado toca RevenueCat.</li>
+    <li><strong>Reflejo en el servidor:</strong> una función en la nube registra el estado de la suscripción (<code>premiumUntil</code>), ignorando explícitamente los identificadores anónimos.</li>
+    <li><strong>Las reglas de la base de datos</strong> impiden que el cliente modifique el campo de suscripción; solo el servidor lo escribe.</li>
+    <li><strong>Cancelación fácil:</strong> la suscripción la gestiona Google Play (cancelable en cualquier momento); la app ofrece un enlace directo a la página de suscripciones y un botón de “restaurar compra”.</li>
+  </ul>
+  <p>Conclusión: el billing no recopila, no elabora perfiles ni comparte ningún dato del niño. Es un tratamiento de dato de adulto, con finalidad de funcionalidad de la app (no publicidad).</p>
+
+  <h2>6. Riesgos identificados y mitigación</h2>
+  <table class="riscos">
+    <tr><th>Riesgo</th><th>Mitigación</th><th>Riesgo residual</th></tr>
+    <tr><td>Que el niño sea identificado o perfilado</td><td>Sin inicio de sesión, sin PII, sin elaboración de perfiles; nombre/avatar del niño solo en el dispositivo del adulto.</td><td><span class="tag baixo">Bajo</span></td></tr>
+    <tr><td>Monitoreo del comportamiento del niño vía presencia</td><td>La presencia es un estado puntual, sobrescrito, nunca un historial.</td><td><span class="tag baixo">Bajo</span></td></tr>
+    <tr><td>Uso indebido de la voz del niño</td><td>El audio P2P no se graba; Agora declarado como subencargado; la llamada Premium la inicia el adulto.</td><td><span class="tag baixo">Bajo</span></td></tr>
+    <tr><td>Filtración del nombre real por el apodo del dispositivo</td><td>Etiqueta neutra por defecto; el apodo amigable queda local en el dispositivo del adulto.</td><td><span class="tag medio">Medio</span></td></tr>
+    <tr><td>Asociar al niño con una suscripción (billing)</td><td>Opción A: el anónimo nunca toca RevenueCat; el servidor ignora los IDs anónimos (§5).</td><td><span class="tag baixo">Bajo</span></td></tr>
+    <tr><td>Retención indebida tras el fin del uso</td><td>Revocar/desemparejar elimina los rastros del niño en el servidor.</td><td><span class="tag baixo">Bajo</span></td></tr>
+  </table>
+
+  <h2>7. Derechos de los titulares</h2>
+  <p>El adulto responsable puede revocar el emparejamiento y solicitar la eliminación de los datos del niño en el servidor (UID anónimo, token de notificación, entrada del dispositivo). Las solicitudes de confirmación, acceso, corrección, anonimización, eliminación y portabilidad pueden realizarse en <a href="mailto:samestoryapp@gmail.com">samestoryapp@gmail.com</a>.</p>
+  <p>Hasta el lanzamiento público (nov/2026), la aplicación ofrecerá también, dentro de la propia app, un panel del responsable con las acciones de revocar el emparejamiento y <strong>eliminar en cascada los datos del Sonhador en el servidor</strong> (UID anónimo, token de notificación y entrada del dispositivo), sin depender del canal de correo.</p>
+
+  <h2>8. Marco legal aplicable</h2>
+  <table class="riscos">
+    <tr><th>Ley</th><th>Región</th><th>Estándar</th></tr>
+    <tr><td>ECA Digital (Ley 15.211/2025)</td><td>Brasil</td><td>Niños/adolescentes; EIPD obligatoria antes del lanzamiento</td></tr>
+    <tr><td>LGPD (Ley 13.709/2018)</td><td>Brasil</td><td>Base legal, minimización, derechos del titular</td></tr>
+    <tr><td>COPPA (rev. 2025)</td><td>EE. UU.</td><td>Menores de 13; consentimiento parental verificable</td></tr>
+    <tr><td>RGPD + Children’s Code</td><td>UE / Reino Unido</td><td>13–16; estándar alto por defecto; DPIA</td></tr>
+    <tr><td>DPDP Act + Rules</td><td>India</td><td>Menores de 18; rastreo/perfilado prohibido — el más estricto</td></tr>
+    <tr><td>APPI + Payment Services Act</td><td>Japón</td><td>Cancelación/reembolso fácil; consentimiento de compra por el adulto</td></tr>
+  </table>
+  <p><strong>Estrategia:</strong> diseñar para el estándar más alto (India). Cumplir con India + ECA Digital cubre casi todo lo demás.</p>
+
+  <h2>9. Conclusión</h2>
+  <p>El tratamiento se diseñó para minimizar el riesgo a los menores al <strong>no recopilar</strong> datos personales del niño: el niño permanece anónimo y sin perfilar, y todo es borrable. El billing es dato de adulto y no toca al niño. Los riesgos residuales identificados son, en su mayoría, <span class="tag baixo">bajos</span>, con un punto <span class="tag medio">medio</span> (apodo del dispositivo) ya mitigado por defecto. Próxima revisión: al activar el promedio de valoración de la comunidad por cuento (un agregado de valoraciones de adultos), o ante cualquier cambio que amplíe la recopilación.</p>
+
+  <h2>10. Historial de revisiones</h2>
+  <table class="riscos">
+    <tr><th>Versión</th><th>Fecha</th><th>Cambio</th></tr>
+    <tr><td>1.0</td><td>23/06/2026</td><td>Versión inicial consolidada; incluye el tratamiento de billing (RevenueCat como subencargado) introducido en S22.5.</td></tr>
+    <tr><td>1.1</td><td>02/07/2026</td><td>Revisión tras el plan de lanzamiento acelerado (BR nov/2026): inclusión del Modo solo (lectura del adulto sin emparejamiento — sin datos del niño, §2) y registro del panel del responsable con eliminación en cascada (§7). El promedio de la comunidad (agregado de adultos) sigue fuera del alcance hasta su activación.</td></tr>
+  </table>
+</section>
+
+<footer>
+  SameSTORY · AIPD/RIPD (LGPD) · DPIA (UK/EU GDPR) · documento interno de conformidade
+</footer>
+
+</div>
+</body>
+</html>

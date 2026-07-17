@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bebê Luca em um Chalé no Campo · Na Mesma Estória</title>
+<meta name="description" content="Uma casa de campo &#x27;pechincha&#x27;, uma noite de terror e um bebê com superpoderes — o que poderia dar errado?">
+
+<!-- Estas 4 linhas "og:" controlam a PRÉVIA que aparece quando alguém
+     compartilha este link no WhatsApp: título, texto e a imagem da capa. -->
+<meta property="og:title" content="Bebê Luca em um Chalé no Campo · Na Mesma Estória">
+<meta property="og:description" content="Uma casa de campo &#x27;pechincha&#x27;, uma noite de terror e um bebê com superpoderes — o que poderia dar errado?">
+<meta property="og:image" content="https://samestoryapp.com/e/bebe_luca_zumbi_do_bem_05_chale_campo/cover.webp">
+<meta property="og:type" content="website">
+
+<!-- Carrega a fonte Nunito (a mesma do app) direto do Google. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ===== Aparência da página (cores da marca) ===== */
+:root{
+  --bege:#FAF4EE;        /* fundo claro do app */
+  --azul-noite:#1B2D4F;  /* azul das telas do filho */
+  --verde-pai:#1A7A5E;   /* verde dos botões do Reader */
+  --dourado:#D4A340;     /* selo premium */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bege);
+  color:var(--azul-noite);
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;
+}
+
+/* Faixa azul-noite no topo, com estrelinhas — eco da Tela de Boa Noite */
+.ceu{
+  width:100%;
+  background:
+    radial-gradient(1.5px 1.5px at 20% 35%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 65% 20%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 85% 60%, #ffffffAA 50%, transparent 51%),
+    radial-gradient(1px 1px at 40% 70%, #ffffffAA 50%, transparent 51%),
+    linear-gradient(180deg, #12203C 0%, var(--azul-noite) 100%);
+  color:#fff;
+  text-align:center;
+  padding:26px 16px 60px;
+}
+.ceu .app{font-weight:800;font-size:1.15rem;letter-spacing:.02em}
+.ceu .tagline{opacity:.85;font-size:.9rem;margin-top:4px}
+
+/* Barra de bandeiras para trocar de idioma */
+.bandeiras{margin-top:14px}
+.bandeiras button{
+  background:none;border:none;font-size:1.35rem;cursor:pointer;
+  padding:4px 5px;border-radius:8px;line-height:1;
+  filter:grayscale(.55) opacity(.7);          /* apagadinha quando não escolhida */
+  transition:filter .15s, transform .15s;
+}
+.bandeiras button.ativa{filter:none;transform:scale(1.18)}  /* acesa quando ativa */
+
+/* Cartão principal, "flutuando" sobre a faixa azul */
+.cartao{
+  width:min(92%,430px);
+  background:#fff;
+  border-radius:22px;
+  box-shadow:0 8px 30px rgba(27,45,79,.14);
+  margin:-40px auto 32px;   /* margem negativa = sobe e invade a faixa azul */
+  overflow:hidden;
+}
+.cartao img.capa{width:100%;display:block;aspect-ratio:1/1;object-fit:cover}
+.conteudo{padding:22px 24px 26px}
+h1{font-size:1.45rem;font-weight:800;line-height:1.25}
+.selo-premium{
+  display:none;   /* "inline-block" se premium, "none" se free */
+  background:var(--dourado);color:#fff;font-size:.72rem;font-weight:800;
+  padding:3px 10px;border-radius:999px;margin-bottom:8px;letter-spacing:.03em;
+}
+.descricao{margin-top:12px;font-size:.98rem;line-height:1.55;white-space:pre-line}
+.como{margin-top:16px;font-size:.86rem;line-height:1.5;opacity:.75}
+
+/* Botão verde da Play Store */
+.botao-play{
+  display:block;text-align:center;text-decoration:none;
+  background:var(--verde-pai);color:#fff;font-weight:800;font-size:1.02rem;
+  padding:15px 18px;border-radius:999px;margin-top:20px;
+  box-shadow:0 4px 14px rgba(26,122,94,.35);
+}
+.botao-play:active{transform:scale(.98)}
+
+footer{padding:0 16px 28px;font-size:.8rem;opacity:.65}
+footer a{color:var(--azul-noite)}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important} }
+</style>
+</head>
+<body>
+
+<!-- Faixa azul do topo: nome do app + frase + bandeiras -->
+<div class="ceu">
+  <div class="app" id="ui-app">Na Mesma Estória</div>
+  <div class="tagline" id="ui-tagline">Ler juntos, mesmo distantes.</div>
+  <div class="bandeiras" id="bandeiras"></div>
+</div>
+
+<!-- Cartão com capa, título, descrição e botão -->
+<div class="cartao">
+  <img class="capa" src="cover.webp" alt="" id="capa">
+  <div class="conteudo">
+    <span class="selo-premium">PREMIUM</span>
+    <h1 id="titulo"></h1>
+    <p class="descricao" id="descricao"></p>
+    <p class="como" id="ui-como"></p>
+    <a class="botao-play" id="ui-botao" href="https://play.google.com/store/apps/details?id=com.samestoryapp.app&referrer=utm_source%3Dsamestoryapp%26utm_medium%3Dstory_page%26utm_content%3Dbebe_luca_zumbi_do_bem_05_chale_campo"></a>
+  </div>
+</div>
+
+<footer><a id="ui-politica" href=""></a></footer>
+
+<script>
+/* ============================================================
+   Parte "viva" da página (JavaScript):
+   1) guarda os textos da estória nos 7 idiomas;
+   2) descobre o idioma do navegador da pessoa;
+   3) preenche a página nesse idioma;
+   4) troca tudo na hora quando uma bandeira é tocada.
+   ============================================================ */
+
+// Todos os textos, já embutidos na página pelo script Python:
+const DADOS = {"pt": {"titulo": "Bebê Luca em um Chalé no Campo", "descricao": "O papai do Bebê Luca achou uma casa de campo baratíssima na internet… mas parece saída de um filme de terror.\nTrovões, vidros quebrando e um uivo na janela: será golpe, susto bobo ou perigo de verdade?\nDescubra como o Bebê Luca encara o medo do jeitinho dele.", "app": "Na Mesma Estória", "tagline": "Ler juntos, mesmo distantes.", "como": "Você lê em voz alta no seu aparelho e seu filho acompanha as imagens no dele — mesmo à distância.", "botao": "Baixar no Google Play", "politica": "Política de privacidade", "arquivoPolitica": "privacidade.html"}, "en": {"titulo": "Baby Luca in a Country Cabin", "descricao": "Baby Luca's dad found a super cheap country house online… but it looks straight out of a horror movie.\nThunder, breaking glass, and a howl at the window: is it a scam, a silly scare, or real danger?\nFind out how Baby Luca faces fear in his own special way.", "app": "SameSTORY", "tagline": "Reading together, even apart.", "como": "You read aloud on your device while your child follows the pictures on theirs — even from far away.", "botao": "Get it on Google Play", "politica": "Privacy policy", "arquivoPolitica": "privacy.html"}, "es": {"titulo": "Bebé Luca en una Cabaña en el Campo", "descricao": "El papá del Bebé Luca encontró una casa de campo baratísima en internet… pero parece sacada de una película de terror.\nTruenos, vidrios rompiéndose y un aullido en la ventana: ¿es una estafa, un susto tonto o un peligro real?\nDescubre cómo el Bebé Luca enfrenta el miedo a su manera.", "app": "En la Misma Historia", "tagline": "Leer juntos, aunque estén lejos.", "como": "Tú lees en voz alta en tu dispositivo y tu hijo sigue las imágenes en el suyo, incluso a distancia.", "botao": "Descargar en Google Play", "politica": "Política de privacidad", "arquivoPolitica": "privacidad.html"}, "it": {"titulo": "Bebê Luca em um Chalé no Campo", "descricao": "O papai do Bebê Luca achou uma casa de campo baratíssima na internet… mas parece saída de um filme de terror.\nTrovões, vidros quebrando e um uivo na janela: será golpe, susto bobo ou perigo de verdade?\nDescubra como o Bebê Luca encara o medo do jeitinho dele.", "app": "SameSTORY", "tagline": "Leggere insieme, anche lontani.", "como": "Tu leggi ad alta voce sul tuo dispositivo e tuo figlio segue le immagini sul suo, anche a distanza.", "botao": "Scarica su Google Play", "politica": "Informativa sulla privacy", "arquivoPolitica": "informativa-privacy.html"}, "de": {"titulo": "Bebê Luca em um Chalé no Campo", "descricao": "O papai do Bebê Luca achou uma casa de campo baratíssima na internet… mas parece saída de um filme de terror.\nTrovões, vidros quebrando e um uivo na janela: será golpe, susto bobo ou perigo de verdade?\nDescubra como o Bebê Luca encara o medo do jeitinho dele.", "app": "SameSTORY", "tagline": "Gemeinsam lesen, auch aus der Ferne.", "como": "Du liest auf deinem Gerät laut vor und dein Kind folgt den Bildern auf seinem — auch aus der Ferne.", "botao": "Bei Google Play laden", "politica": "Datenschutzerklärung", "arquivoPolitica": "datenschutz.html"}, "fr": {"titulo": "Bebê Luca em um Chalé no Campo", "descricao": "O papai do Bebê Luca achou uma casa de campo baratíssima na internet… mas parece saída de um filme de terror.\nTrovões, vidros quebrando e um uivo na janela: será golpe, susto bobo ou perigo de verdade?\nDescubra como o Bebê Luca encara o medo do jeitinho dele.", "app": "SameSTORY", "tagline": "Lire ensemble, même à distance.", "como": "Vous lisez à voix haute sur votre appareil et votre enfant suit les images sur le sien — même à distance.", "botao": "Télécharger sur Google Play", "politica": "Politique de confidentialité", "arquivoPolitica": "confidentialite.html"}, "nl": {"titulo": "Bebê Luca em um Chalé no Campo", "descricao": "O papai do Bebê Luca achou uma casa de campo baratíssima na internet… mas parece saída de um filme de terror.\nTrovões, vidros quebrando e um uivo na janela: será golpe, susto bobo ou perigo de verdade?\nDescubra como o Bebê Luca encara o medo do jeitinho dele.", "app": "SameSTORY", "tagline": "Samen lezen, ook op afstand.", "como": "Jij leest hardop voor op jouw apparaat en je kind volgt de plaatjes op het zijne — ook op afstand.", "botao": "Downloaden in Google Play", "politica": "Privacybeleid", "arquivoPolitica": "privacybeleid.html"}};
+
+// Lista de idiomas na ordem das bandeiras:
+const IDIOMAS = [{"cod": "pt", "bandeira": "🇧🇷"}, {"cod": "en", "bandeira": "🇺🇸"}, {"cod": "es", "bandeira": "🇪🇸"}, {"cod": "it", "bandeira": "🇮🇹"}, {"cod": "de", "bandeira": "🇩🇪"}, {"cod": "fr", "bandeira": "🇫🇷"}, {"cod": "nl", "bandeira": "🇳🇱"}];
+
+// Descobre o idioma preferido do navegador (ex.: "pt-BR" vira "pt").
+// Se não for um dos 7, cai no inglês.
+function idiomaDoNavegador(){
+  const cod = (navigator.language || "en").slice(0,2).toLowerCase();
+  return DADOS[cod] ? cod : "en";
+}
+
+// Preenche a página inteira no idioma escolhido:
+function aplicarIdioma(cod){
+  const d = DADOS[cod];
+  document.documentElement.lang = cod;              // avisa o navegador o idioma
+  document.getElementById("titulo").textContent = d.titulo;
+  document.getElementById("descricao").textContent = d.descricao;
+  document.getElementById("capa").alt = d.titulo;   // descrição da imagem (acessibilidade)
+  document.getElementById("ui-app").textContent = d.app;
+  document.getElementById("ui-tagline").textContent = d.tagline;
+  document.getElementById("ui-como").textContent = d.como;
+  document.getElementById("ui-botao").textContent = d.botao;
+  const pol = document.getElementById("ui-politica");
+  pol.textContent = d.politica;
+  pol.href = "/" + d.arquivoPolitica;               // política no mesmo idioma
+  // Acende a bandeira ativa e apaga as outras:
+  document.querySelectorAll(".bandeiras button").forEach(b =>
+    b.classList.toggle("ativa", b.dataset.cod === cod));
+}
+
+// Cria os botões de bandeira (um por idioma):
+const barra = document.getElementById("bandeiras");
+IDIOMAS.forEach(function(item){
+  const b = document.createElement("button");
+  b.textContent = item.bandeira;
+  b.dataset.cod = item.cod;
+  b.setAttribute("aria-label", item.cod);           // leitor de tela sabe o idioma
+  b.onclick = function(){ aplicarIdioma(item.cod); };
+  barra.appendChild(b);
+});
+
+// Ao abrir a página: aplica o idioma detectado.
+aplicarIdioma(idiomaDoNavegador());
+</script>
+</body>
+</html>

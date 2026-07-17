@@ -1,0 +1,172 @@
+<!--
+  ARQUIVO: terms.html — Termos de Uso em INGLÊS.
+  O QUE FAZER: subir para a raiz do site
+  (ficará acessível em https://samestoryapp.com/terms.html).
+  ATENÇÃO: ao publicar, atualizar também a faixa de idiomas do
+  termos.html (PT) para apontar para as 3 versões — trecho no chat.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<title>Terms of Use — SameSTORY</title>
+<meta name="description" content="Terms of Use for the SameSTORY app: usage rules, Premium subscription, content, and responsibilities.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde-pai:#1A7A5E;--azul-filho:#2A6DB5;--coral:#E8604C;--dourado:#D4A340;
+    --bege:#FAF4EE;--tinta:#23312c;--tinta-suave:#54635c;--linha:#e7ddd2;--branco:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:var(--bege);color:var(--tinta);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased;}
+  a{color:var(--verde-pai);}
+  .langbar{background:var(--branco);border-bottom:1px solid var(--linha);padding:10px 20px;text-align:center;font-size:14px;font-weight:600;}
+  .langbar a{margin:0 8px;text-decoration:none;color:var(--tinta-suave);}
+  .langbar a.atual{color:var(--verde-pai);text-decoration:underline;}
+  header.topo{background:linear-gradient(135deg,var(--verde-pai),#15614a);color:#fff;padding:54px 24px 46px;text-align:center;}
+  header.topo .marca{font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:14px;opacity:.85;}
+  header.topo h1{margin:10px 0 6px;font-size:30px;font-weight:800;line-height:1.2;}
+  header.topo .data{font-size:14px;opacity:.85;}
+  main{max-width:760px;margin:0 auto;padding:36px 24px 80px;}
+  .intro{background:var(--branco);border:1px solid var(--linha);border-radius:16px;padding:24px 26px;margin-bottom:28px;font-size:17px;}
+  h2{font-size:21px;font-weight:800;color:var(--verde-pai);margin:38px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--linha);}
+  p{margin:0 0 14px;}
+  ul{margin:0 0 16px;padding-left:22px;}
+  li{margin-bottom:8px;}
+  strong{font-weight:700;}
+  nav.sumario{background:var(--branco);border:1px solid var(--linha);border-radius:16px;padding:20px 24px;margin-bottom:8px;}
+  nav.sumario p{font-weight:800;margin:0 0 10px;color:var(--verde-pai);}
+  nav.sumario ol{margin:0;padding-left:20px;columns:2;column-gap:28px;font-size:15px;}
+  nav.sumario a{text-decoration:none;}
+  nav.sumario a:hover{text-decoration:underline;}
+  footer{border-top:1px solid var(--linha);padding:28px 24px 40px;text-align:center;color:var(--tinta-suave);font-size:14px;}
+  @media(max-width:560px){nav.sumario ol{columns:1;}header.topo h1{font-size:25px;}body{font-size:16px;}}
+</style>
+</head>
+<body>
+
+<div class="langbar">
+  <a href="/termos.html">Português</a> ·
+  <a href="/terms.html" class="atual">English</a> ·
+  <a href="/terminos.html">Español</a>
+</div>
+
+<header class="topo">
+  <div class="marca">SameSTORY</div>
+  <h1>Terms of Use</h1>
+  <div class="data">Last updated: 07/02/2026</div>
+</header>
+
+<main>
+
+  <div class="intro">
+    <p>These Terms of Use govern the use of the <strong>SameSTORY</strong> app. By using the app, you declare that you have read, understood, and agree to these terms. If you do not agree, please do not use the application.</p>
+    <p>We wrote this in plain language on purpose — we want you to actually understand what you are agreeing to.</p>
+  </div>
+
+  <nav class="sumario">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#servico">What the service is</a></li>
+      <li><a href="#quem-pode">Who can use it</a></li>
+      <li><a href="#conta">Your account</a></li>
+      <li><a href="#gratis-premium">Free plan and Premium</a></li>
+      <li><a href="#pagamento">Payment, renewal, and cancellation</a></li>
+      <li><a href="#conteudo">Content and intellectual property</a></li>
+      <li><a href="#uso-aceitavel">Acceptable use</a></li>
+      <li><a href="#voz">Voice call</a></li>
+      <li><a href="#privacidade">Privacy and children</a></li>
+      <li><a href="#disponibilidade">Availability and changes</a></li>
+      <li><a href="#responsabilidade">Limitation of liability</a></li>
+      <li><a href="#encerramento">Termination</a></li>
+      <li><a href="#alteracoes">Changes to these terms</a></li>
+      <li><a href="#lei">Governing law</a></li>
+      <li><a href="#contato">Contact</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="servico">1. What the service is</h2>
+  <p>SameSTORY is a remote shared-reading app: an adult (the <strong>Reader</strong>) reads a story aloud while the child (the <strong>Sonhador</strong>) follows the synchronized illustrations on another device. The app offers a catalog of original children's stories, device pairing, real-time synchronization, and — on the Premium plan — a live voice call during reading.</p>
+  <p>The application is operated by <strong>Gustavo Silva</strong> ("we"), available on the Google Play store under the identifier <strong>com.samestoryapp.app</strong>.</p>
+
+  <h2 id="quem-pode">2. Who can use it</h2>
+  <p>The app account is intended for <strong>adults (18 or older)</strong>, who act as the responsible party: they create the account, set up the pairing, and, if they choose, purchase the subscription.</p>
+  <p>The child <strong>does not create an account or sign in</strong>. The child uses the app only through a device that the responsible adult deliberately linked (paired) using a code or QR Code generated in the adult's account. By pairing a device for a child, you declare that you are the child's legal guardian — or that you have the legal guardian's authorization — and that you authorize that child's use of the app under our <a href="/privacy.html">Privacy Policy</a>.</p>
+
+  <h2 id="conta">3. Your account</h2>
+  <ul>
+    <li>You may use the app anonymously (without signing up) or create an account with an email or Google account.</li>
+    <li>You are responsible for keeping your access secure (email, password, Google account) and for the activity carried out on your account.</li>
+    <li>The information you provide must be truthful. Accounts created with false data may be terminated.</li>
+    <li>You can revoke the pairing of any linked device at any time, inside the app.</li>
+  </ul>
+
+  <h2 id="gratis-premium">4. Free plan and Premium</h2>
+  <p>The app offers <strong>free access</strong> that lets you read a limited number of stories (currently 3 stories) and try the main features, including the voice call during that trial window.</p>
+  <p>The <strong>Premium plan</strong> is a subscription that unlocks the full story catalog and the voice call without a story limit. The available plans (monthly or annual), prices, and any free-trial periods are shown inside the app and processed by the Google Play store. Prices may vary by country and may be adjusted; any price change to an active subscription follows Google Play's communication rules.</p>
+
+  <h2 id="pagamento">5. Payment, renewal, and cancellation</h2>
+  <ul>
+    <li><strong>Billing:</strong> all charges are processed by <strong>Google Play</strong> on the subscriber's Google account. We do not receive or store your card details.</li>
+    <li><strong>Automatic renewal:</strong> the subscription renews automatically at the end of each period (monthly or annual) unless cancelled before renewal.</li>
+    <li><strong>Free trial:</strong> when offered, the trial period is managed by Google Play. If you do not cancel before the trial ends, billing for the chosen plan starts automatically.</li>
+    <li><strong>Cancellation:</strong> you may cancel at any time through the Google Play subscriptions list (there is a "Manage subscription" shortcut inside the app, in the Profile). Cancelling stops the renewal; Premium access remains until the end of the period already paid.</li>
+    <li><strong>Refunds:</strong> refund requests follow Google Play's refund policy. This does not affect any statutory consumer rights you may have, including withdrawal rights for distance purchases where applicable.</li>
+    <li><strong>Restore purchase:</strong> if you switch devices or reinstall the app, use the "Restore purchase" button (in the Profile or on the plans screen) with the same account.</li>
+  </ul>
+
+  <h2 id="conteudo">6. Content and intellectual property</h2>
+  <p>All stories, illustrations, characters (including Bebê Luca, Veloz, Dudu, Homem Catenga, Fernando, and others), texts, trademarks, logos, and other elements of the application are owned by us or licensed to us, and are protected by copyright and industrial-property laws. The trademark has been filed with Brazil's INPI, and works in the catalog are registered with Brazil's National Library.</p>
+  <p>By subscribing to or using the app, you receive a <strong>personal, limited, non-transferable, non-exclusive license</strong> to use the content within the application, for personal and family purposes. You may not copy, reproduce, distribute, sell, publish, adapt, or commercially exploit any content of the app outside of it, in whole or in part, without our written authorization. The printable coloring pages are intended exclusively for home and family use.</p>
+
+  <h2 id="uso-aceitavel">7. Acceptable use</h2>
+  <p>By using the app, you agree <strong>not</strong> to:</p>
+  <ul>
+    <li>Use the service for any unlawful purpose or one that harms third parties, especially children;</li>
+    <li>Pair a child's device without being their legal guardian or without the guardian's authorization;</li>
+    <li>Attempt to bypass technical limitations, Premium content access controls, or security rules;</li>
+    <li>Reverse-engineer, decompile, or extract the application's code or content;</li>
+    <li>Use bots, scripts, or automated means to access the service;</li>
+    <li>Resell, rent, or sublicense access to the application.</li>
+  </ul>
+
+  <h2 id="voz">8. Voice call</h2>
+  <p>The voice call connects the adult's microphone to the child's device <strong>live</strong>, only during the reading session, and <strong>is not recorded</strong> (details in the <a href="/privacy.html">Privacy Policy</a>). The call can only be started by the adult. You are responsible for what you say during the call and for ensuring that only authorized people use the paired devices.</p>
+
+  <h2 id="privacidade">9. Privacy and children</h2>
+  <p>The processing of personal data is described in our <a href="/privacy.html">Privacy Policy</a>, which forms part of these terms. In short: the child does not sign in, is not identified on our servers, sees no ads, and is not tracked. The account, the subscription, and all configuration decisions belong to the responsible adult.</p>
+
+  <h2 id="disponibilidade">10. Availability and changes to the service</h2>
+  <p>We work to keep the app available and running well, but it depends on third-party services (internet, Google Play, cloud and voice providers) and may experience interruptions, maintenance, or occasional failures. We may add, change, or discontinue features and catalog stories. Changes that materially reduce what an active subscription offers will be communicated, and you may cancel if you do not agree.</p>
+
+  <h2 id="responsabilidade">11. Warranties and limitation of liability</h2>
+  <p>The app is provided "as is". To the maximum extent permitted by law, we are not liable for indirect damages arising from the use of, or the inability to use, the application — such as loss of data saved only locally on the device, unavailability caused by third parties, or misuse of paired devices.</p>
+  <p><strong>Nothing in these terms excludes or limits rights that consumer-protection legislation guarantees you</strong> and that cannot be excluded or limited by contract.</p>
+
+  <h2 id="encerramento">12. Termination</h2>
+  <p>You may stop using the app and request the deletion of your account at any time (see the Privacy Policy). We may suspend or terminate accounts that violate these terms, especially the acceptable-use and child-protection rules. In case of termination for violation, amounts for periods already paid follow Google Play's refund policy and applicable law.</p>
+
+  <h2 id="alteracoes">13. Changes to these terms</h2>
+  <p>We may update these terms to reflect changes in the app or in the law. When that happens, we will change the "last updated" date at the top, and material changes may be communicated within the app. Continued use after an update means you agree to the new terms.</p>
+
+  <h2 id="lei">14. Governing law</h2>
+  <p>These terms are governed by the laws of the Federative Republic of Brazil, where the service is operated. If you reside in another country, mandatory consumer-protection rules of your place of residence remain unaffected.</p>
+
+  <h2 id="contato">15. Contact</h2>
+  <p>Questions about these terms? Reach us at <a href="mailto:samestoryapp@gmail.com">samestoryapp@gmail.com</a>.</p>
+
+</main>
+
+<footer>
+  SameSTORY — Gustavo Silva<br>
+  <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Use</a>
+</footer>
+
+</body>
+</html>

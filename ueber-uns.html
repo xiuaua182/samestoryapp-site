@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <!-- ======================================================================
+       ueber-uns.html — Página "Sobre nós" (Deutsch) — samestoryapp.com
+       Gerado por gerar_sobre_nos.py. NÃO edite à mão: edite o script e
+       rode de novo (senão os 7 idiomas saem do sincronismo).
+       Mesma família visual das políticas: Bege, Verde Pai, Nunito.
+       Assinatura: o "céu de boa noite" (eco da TelaBoaNoite do app).
+       ====================================================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <title>Über uns — Na Mesma Estória (SameSTORY)</title>
+  <meta name="description" content="Die Geschichte hinter SameSTORY: ein Vater, ein Sohn und die Geschichten, die aus dem Alltag entstanden sind, um auch aus der Ferne verbunden zu bleiben.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,800;1,600&display=swap"
+        rel="stylesheet">
+
+  <style>
+    /* Paleta de marca — mesma das políticas do site (CLAUDE.md §5) */
+    :root {
+      --bege: #FAF4EE;
+      --verde-pai: #1A7A5E;
+      --verde-menta: #4ECBA1;
+      --azul-noite: #0D1B2A;
+      --texto: #33302B;
+      --tinta-suave: #6B665E;
+      --linha: #e7ddd2;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bege); color: var(--texto);
+      font-family: 'Nunito', system-ui, sans-serif;
+      font-size: 17px; line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Faixa de idiomas — mesmo visual das políticas */
+    .langbar {
+      background: #fff; border-bottom: 1px solid var(--linha);
+      padding: 10px 20px; text-align: center;
+      font-size: 14px; font-weight: 600;
+    }
+    .langbar a { margin: 0 4px; text-decoration: none; color: var(--tinta-suave); }
+    .langbar a.atual { color: var(--verde-pai); text-decoration: underline; }
+
+    /* Coluna central de leitura */
+    .coluna { max-width: 680px; margin: 0 auto; padding: 56px 24px 64px; text-align: center; }
+    .logo { width: min(56vw, 240px); height: auto; margin-bottom: 28px; }
+    h1 {
+      font-weight: 800; font-size: clamp(1.8rem, 5vw, 2.4rem);
+      color: var(--verde-pai); margin-bottom: 32px;
+    }
+    .texto p { text-align: left; margin-bottom: 20px; }
+    .texto p.fecho {
+      text-align: center; font-style: italic; font-weight: 600;
+      color: var(--verde-pai); margin-top: 8px;
+    }
+
+    /* Céu de boa noite (assinatura) — lua + estrelas em CSS puro, 0 KB */
+    .ceu {
+      position: relative; overflow: hidden;
+      background: linear-gradient(180deg, #13253A 0%, var(--azul-noite) 100%);
+      color: #EAF2F8; padding: 64px 24px 56px; text-align: center;
+    }
+    .lua {
+      position: relative; width: 54px; height: 54px; margin: 0 auto 20px;
+      border-radius: 50%; background: #F5E9C9;
+      box-shadow: 0 0 24px rgba(245, 233, 201, 0.35);
+    }
+    .lua::after {
+      content: ""; position: absolute; top: -6px; left: 14px;
+      width: 48px; height: 48px; border-radius: 50%; background: #16283E;
+    }
+    .estrelas { position: absolute; inset: 0; pointer-events: none; }
+    .estrelas i {
+      position: absolute; width: 3px; height: 3px; border-radius: 50%;
+      background: #fff; opacity: .8; animation: piscar 3.2s ease-in-out infinite;
+    }
+    .estrelas i:nth-child(1)  { top: 18%; left: 12%; }
+    .estrelas i:nth-child(2)  { top: 34%; left: 22%; animation-delay: .6s; }
+    .estrelas i:nth-child(3)  { top: 12%; left: 38%; animation-delay: 1.1s; }
+    .estrelas i:nth-child(4)  { top: 26%; left: 62%; animation-delay: .3s; }
+    .estrelas i:nth-child(5)  { top: 15%; left: 80%; animation-delay: 1.6s; }
+    .estrelas i:nth-child(6)  { top: 44%; left: 88%; animation-delay: .9s; }
+    .estrelas i:nth-child(7)  { top: 58%; left: 8%;  animation-delay: 1.3s; }
+    .estrelas i:nth-child(8)  { top: 66%; left: 30%; animation-delay: .2s; }
+    .estrelas i:nth-child(9)  { top: 72%; left: 70%; animation-delay: 1.9s; }
+    .estrelas i:nth-child(10) { top: 52%; left: 48%; animation-delay: .7s; }
+    @keyframes piscar { 0%, 100% { opacity: .25; } 50% { opacity: .95; } }
+    @media (prefers-reduced-motion: reduce) { .estrelas i { animation: none; } }
+
+    .ceu h2 {
+      font-weight: 800; font-size: 1.35rem; color: var(--verde-menta);
+      margin-bottom: 10px; position: relative;
+    }
+    .ceu p { max-width: 480px; margin: 0 auto 26px; opacity: .85; position: relative; }
+
+    .botao {
+      display: inline-block; position: relative;
+      background: var(--verde-pai); color: #fff; text-decoration: none;
+      font-weight: 800; padding: 14px 32px; border-radius: 999px;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .botao:hover { background: #146349; transform: translateY(-2px); }
+    .botao:focus-visible { outline: 3px solid var(--verde-menta); outline-offset: 3px; }
+
+    footer {
+      background: var(--azul-noite); color: rgba(234, 242, 248, .55);
+      text-align: center; font-size: .85rem; padding: 20px 24px 28px;
+    }
+    footer a { color: rgba(234, 242, 248, .75); }
+  </style>
+</head>
+<body>
+
+  <!-- Faixa de idiomas (o idioma atual vem sublinhado em verde) -->
+  <div class="langbar">
+    <a href="sobre.html">Português</a>
+    ·
+    <a href="about.html">English</a>
+    ·
+    <a href="acerca.html">Español</a>
+    ·
+    <a href="chi-siamo.html">Italiano</a>
+    ·
+    <a href="ueber-uns.html" class="atual">Deutsch</a>
+    ·
+    <a href="a-propos.html">Français</a>
+    ·
+    <a href="over-ons.html">Nederlands</a>
+  </div>
+
+  <main class="coluna">
+    <!-- ⚠️ A logo precisa estar publicada como logo.png na raiz do site.
+         Se estiver em outra pasta, ajuste o src aqui no script e regere. -->
+    <img class="logo" src="logo.png" alt="SameSTORY-Logo: Zeichnung eines Vaters und eines Sohnes, die zusammen lesen">
+
+    <h1>Über uns</h1>
+
+    <div class="texto">
+      <p>Ich bin Gustavo, die treibende Kraft hinter SameSTORY und Helfer meines Sohnes Luca, der um die Erschaffung vieler der Figuren gebeten hat und mir mit Ideen für die Handlung und sogar beim Erstellen einiger Bilder hilft.</p>
+      <p>Diese Geschichten entstanden aus alltäglichen Momenten, in denen ein Vater, der seinen Sohn bedingungslos liebt, versuchte, ihn zum Zähneputzen, Essen, Baden und zu anderen einfachen Aufgaben zu überreden, die mit einem kleinen Kind immer die Fähigkeit haben, äußerst kompliziert zu werden.</p>
+      <p>Angesichts der konkreten Möglichkeit, wieder viel beruflich reisen zu müssen, beschloss ich, die Ideen und Geschichten, die wir teilten, in etwas Konkretes zu verwandeln — etwas, das mir helfen würde, die Verbindung zu meinem Sohn in einem so innigen und schönen Moment wie dem Vorlesen vor dem Schlafen zu bewahren, auch aus der Ferne.</p>
+      <p class="fecho">Ich hoffe, dass diese Geschichten dir und deinem kleinen Träumer oder deiner kleinen Träumerin besondere Momente schenken. Genau dafür wurden sie geschaffen: aus dem Traum eines Vaters, der alles tun wollte, um seinem Kind immer nah zu sein.</p>
+    </div>
+  </main>
+
+  <!-- Céu de boa noite (assinatura da página) -->
+  <section class="ceu" aria-label="Gute Nacht und viel Freude beim Lesen">
+    <div class="estrelas" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+    <div class="lua" aria-hidden="true"></div>
+    <h2>Gute Nacht… und viel Freude beim Lesen.</h2>
+    <p>Gemeinsam lesen, auch aus der Ferne — genau das macht SameSTORY.</p>
+    <a class="botao" href="/">Die App entdecken</a>
+    <!-- 🔜 NO LANÇAMENTO: trocar/duplicar o botão pelo badge da Google Play:
+         https://play.google.com/store/apps/details?id=com.samestoryapp.app -->
+  </section>
+
+  <footer>
+    <a href="/">Start</a> ·
+    <a href="datenschutz.html">Datenschutzerklärung</a> ·
+    <a href="termos.html">Nutzungsbedingungen</a>
+    <br>© 2026 Na Mesma Estória (SameSTORY)
+  </footer>
+
+</body>
+</html>
