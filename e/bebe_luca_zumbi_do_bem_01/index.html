@@ -69,7 +69,8 @@ body{
   margin:-40px auto 32px;   /* margem negativa = sobe e invade a faixa azul */
   overflow:hidden;
 }
-.cartao img.capa{width:100%;display:block;aspect-ratio:1/1;object-fit:cover}
+/* .capa vale tanto pra imagem quanto pra vídeo (capa animada) */
+.cartao .capa{width:100%;display:block;aspect-ratio:1/1;object-fit:cover}
 .conteudo{padding:22px 24px 26px}
 h1{font-size:1.45rem;font-weight:800;line-height:1.25}
 .selo-premium{
@@ -103,9 +104,11 @@ footer a{color:var(--azul-noite)}
   <div class="bandeiras" id="bandeiras"></div>
 </div>
 
-<!-- Cartão com capa, título, descrição e botão -->
+<!-- Cartão com capa, título, descrição e botão.
+     A lacuna abaixo vira <video> (capa animada) quando a estória
+     tem movimento, ou <img> (capa parada) quando não tem. -->
 <div class="cartao">
-  <img class="capa" src="cover.webp" alt="" id="capa">
+  <video class="capa" id="capa" src="cover.mp4" poster="cover.webp" autoplay muted loop playsinline></video>
   <div class="conteudo">
     <span class="selo-premium">PREMIUM</span>
     <h1 id="titulo"></h1>
@@ -145,7 +148,11 @@ function aplicarIdioma(cod){
   document.documentElement.lang = cod;              // avisa o navegador o idioma
   document.getElementById("titulo").textContent = d.titulo;
   document.getElementById("descricao").textContent = d.descricao;
-  document.getElementById("capa").alt = d.titulo;   // descrição da imagem (acessibilidade)
+  // Descrição da capa pro leitor de tela — setAttribute funciona
+  // tanto na <img> (alt) quanto no <video> (aria-label):
+  const capa = document.getElementById("capa");
+  capa.setAttribute("alt", d.titulo);
+  capa.setAttribute("aria-label", d.titulo);
   document.getElementById("ui-app").textContent = d.app;
   document.getElementById("ui-tagline").textContent = d.tagline;
   document.getElementById("ui-como").textContent = d.como;
