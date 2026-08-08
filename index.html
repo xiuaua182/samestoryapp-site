@@ -1,76 +1,984 @@
 <!DOCTYPE html>
+<!--
+  ============================================================================
+  SameSTORY — página inicial (samestoryapp.com/index.html)
+  Revisão 1 — revamp visual + SEO + redes sociais
+
+  COMO ESTE ARQUIVO ESTÁ ORGANIZADO (leia de cima pra baixo):
+    BLOCO 1  <head> técnico  ....... o que o Google e o WhatsApp leem
+    BLOCO 2  Dados estruturados .... "ficha catalográfica" pro Google (JSON-LD)
+    BLOCO 3  CSS: variáveis ......... as cores da marca em um lugar só
+    BLOCO 4  CSS: layout ............ o desenho da página
+    BLOCO 5  Herói ................... os dois celulares sincronizados
+    BLOCO 6  Como funciona ........... 3 passos
+    BLOCO 7  Para quem é ............. os textos que as pessoas buscam
+    BLOCO 8  Estórias ................ links para as páginas /e/<id>
+    BLOCO 9  Perguntas frequentes .... também alimenta o Google
+    BLOCO 10 Rodapé .................. redes sociais, políticas, idiomas
+    BLOCO 11 JavaScript .............. só a animação de sincronia
+
+  PONTOS QUE VOCÊ PRECISA EDITAR ANTES DE SUBIR estão marcados com:
+        <!== EDITAR ==>
+  Procure por "EDITAR" no arquivo e você acha todos.
+  ============================================================================
+-->
 <html lang="pt-BR">
 <head>
+
+<!-- ==========================================================================
+     BLOCO 1 — CABEÇALHO TÉCNICO
+     Nada aqui aparece na tela. É tudo o que os robôs de busca leem.
+     ========================================================================== -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SameSTORY — Ler juntos, mesmo distantes</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #FAF4EE;
-      color: #1B2D4F;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      text-align: center;
-    }
+  <!-- O TÍTULO é o texto azul que aparece no resultado do Google.
+       Regra: até ~60 caracteres, e as palavras que a pessoa digitaria
+       precisam estar aqui. "Ler juntos, mesmo distantes" é bonito mas
+       ninguém digita isso no Google. "à distância" e "em tempo real", sim. -->
+  <title>SameSTORY — Leia histórias para seu filho à distância, em tempo real</title>
 
-    .card { max-width: 420px; width: 100%; }
+  <!-- A DESCRIÇÃO é o textinho cinza embaixo do título no Google.
+       Não muda a posição no ranking, mas muda quantas pessoas clicam.
+       Regra: 150 a 160 caracteres. Passou disso, o Google corta. -->
+  <meta name="description"
+        content="Você lê a história em voz alta no seu celular e seu filho acompanha as ilustrações no celular dele, na mesma página, ao mesmo tempo. De qualquer distância.">
 
-    .emoji { font-size: 72px; margin-bottom: 20px; }
+  <!-- CANONICAL: diz ao Google "o endereço oficial desta página é este".
+       Evita que ele trate samestoryapp.com e www.samestoryapp.com como
+       dois sites diferentes disputando entre si. -->
+  <link rel="canonical" href="https://samestoryapp.com/">
 
-    h1 {
-      font-size: 32px;
-      font-weight: 900;
-      color: #1B2D4F;
-      margin-bottom: 8px;
-    }
+  <!-- Cor da barra do navegador no celular (Verde Pai, igual à AppBar do app) -->
+  <meta name="theme-color" content="#1A7A5E">
 
-    .tagline {
-      font-size: 18px;
-      color: #1A7A5E;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
+  <!-- ÍCONE da aba do navegador.
+       <!== EDITAR ==> troque pelo caminho real do seu favicon. -->
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    p {
-      font-size: 15px;
-      color: #8D7E6E;
-      line-height: 1.7;
-      margin-bottom: 36px;
-    }
+  <!-- OPEN GRAPH: é isto que gera a "prévia bonita" quando alguém cola o
+       link no WhatsApp, Instagram, Facebook ou LinkedIn.
+       Hoje o seu site não tem nada disso — por isso o link aparece pelado.
+       Como o WhatsApp é o seu canal principal no Brasil, isto é prioridade. -->
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="SameSTORY">
+  <meta property="og:locale"      content="pt_BR">
+  <meta property="og:url"         content="https://samestoryapp.com/">
+  <meta property="og:title"       content="SameSTORY — Ler juntos, mesmo distantes">
+  <meta property="og:description" content="Você lê em voz alta no seu celular. Seu filho acompanha as ilustrações no celular dele, na mesma página, ao mesmo tempo.">
+  <!-- <!== EDITAR ==> Esta imagem PRECISA existir e ter 1200x630 pixels.
+       Sem ela, a prévia do WhatsApp fica sem foto. Ver instruções no chat. -->
+  <meta property="og:image"       content="https://samestoryapp.com/og-capa.png">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt"    content="Dois celulares lado a lado mostrando a mesma página de uma história infantil">
 
-    .botao {
-      display: block;
-      background: #1A7A5E;
-      color: white;
-      padding: 18px 32px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-size: 17px;
-      font-weight: 700;
-      box-shadow: 0 4px 16px rgba(26,122,94,0.3);
-    }
-  </style>
+  <!-- TWITTER/X: o X usa tags próprias. "summary_large_image" = foto grande.
+       O @site liga a prévia à sua conta — é uma das ligações com rede social. -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@SameSTORYapp">
+  <meta name="twitter:creator"     content="@SameSTORYapp">
+  <meta name="twitter:title"       content="SameSTORY — Ler juntos, mesmo distantes">
+  <meta name="twitter:description" content="Você lê em voz alta no seu celular. Seu filho acompanha as ilustrações no celular dele, na mesma página, ao mesmo tempo.">
+  <meta name="twitter:image"       content="https://samestoryapp.com/og-capa.png">
+
+  <!-- FONTE NUNITO — a mesma do app. É o que mais aproxima o site do app.
+       preconnect = "abre a conexão já", faz a fonte chegar mais rápido. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,900;1,700&display=swap" rel="stylesheet">
+
+
+<!-- ==========================================================================
+     BLOCO 2 — DADOS ESTRUTURADOS (JSON-LD)
+     Isto não aparece na tela. É um "formulário preenchido" que você entrega
+     ao Google dizendo, sem ambiguidade, o que é este site.
+
+     >>> É AQUI que suas redes sociais se ligam à busca. <<<
+     A propriedade "sameAs" significa: "estes perfis são a MESMA entidade que
+     este site". É assim que o Google monta o painel lateral de uma marca e
+     passa a entender que o Instagram @SameSTORYapp e samestoryapp.com são a
+     mesma coisa. Colocar um ícone de Instagram no rodapé é bom pro humano;
+     o "sameAs" é o que fala com o robô.
+     ========================================================================== -->
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://samestoryapp.com/#organizacao",
+        "name": "SameSTORY",
+        "alternateName": "Na Mesma Estória",
+        "url": "https://samestoryapp.com/",
+        "logo": "https://samestoryapp.com/logo.png",
+        "description": "Aplicativo de leitura compartilhada em tempo real entre um adulto e uma criança, em dispositivos diferentes.",
+        "sameAs": [
+          "https://www.instagram.com/SameSTORYapp",
+          "https://x.com/SameSTORYapp",
+          "https://www.tiktok.com/@SameSTORYapp"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://samestoryapp.com/#site",
+        "url": "https://samestoryapp.com/",
+        "name": "SameSTORY",
+        "inLanguage": "pt-BR",
+        "publisher": { "@id": "https://samestoryapp.com/#organizacao" }
+      },
+      {
+        "@type": "MobileApplication",
+        "name": "SameSTORY — Na Mesma Estória",
+        "operatingSystem": "Android",
+        "applicationCategory": "EducationalApplication",
+        "inLanguage": ["pt-BR", "en", "es", "it", "de", "fr", "nl"],
+        "description": "O adulto lê a história em voz alta no celular dele e a criança acompanha as ilustrações sincronizadas no celular dela, em tempo real, a qualquer distância.",
+        "url": "https://samestoryapp.com/",
+        "publisher": { "@id": "https://samestoryapp.com/#organizacao" },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "BRL",
+          "description": "Três estórias gratuitas. Assinatura opcional para o catálogo completo."
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://samestoryapp.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Como o SameSTORY funciona à distância?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Você abre a história no seu celular e vira as páginas normalmente enquanto lê em voz alta. O celular da criança acompanha e mostra a ilustração da mesma página, no mesmo instante, mesmo que vocês estejam em cidades diferentes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A voz é gravada ou é uma narração automática?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nenhuma das duas. A voz é a sua, ao vivo. O SameSTORY não usa narração artificial e não grava o áudio da leitura em nenhum momento."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A criança precisa criar uma conta?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Não. Só o adulto responsável tem conta. O aparelho da criança é vinculado por um código e não pede nome, e-mail, senha nem qualquer dado pessoal."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "É gratuito?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Três estórias completas são gratuitas, sem prazo. O catálogo completo fica disponível por assinatura, que o adulto pode cancelar quando quiser pela Google Play."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Serve para avós, pais separados ou quem viaja a trabalho?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim. O SameSTORY foi feito exatamente para essas situações: qualquer adulto que ame uma criança e esteja longe dela na hora de dormir."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+
+<style>
+/* ==========================================================================
+   BLOCO 3 — VARIÁVEIS DE COR
+   Uma "variável" é um apelido para um valor. Escrever var(--verde-pai) em vez
+   de #1A7A5E significa que, se a cor mudar um dia, você troca em UM lugar só.
+   Os nomes e códigos são exatamente os da §5 do CLAUDE.md.
+   ========================================================================== */
+:root {
+  --verde-pai:      #1A7A5E;   /* primários, botões, AppBar do Reader */
+  --azul-filho:     #2A6DB5;   /* tudo que é do lado da criança */
+  --coral:          #E8604C;   /* destaque afetivo, usado com parcimônia */
+  --dourado:        #D4A340;   /* premium */
+  --menta:          #4ECBA1;   /* "online", sinal de vida */
+  --bege:           #FAF4EE;   /* fundo claro */
+  --azul-noite:     #0D1B2A;   /* fundo escuro */
+  --ceu-topo:       #1B2D4F;   /* gradiente do "céu de boa noite" */
+  --ceu-base:       #0F1B33;
+  --texto:          #1B2D4F;   /* cor do texto sobre fundo claro */
+  --texto-suave:    #8D7E6E;   /* texto secundário */
+  --borda:          #E8DDD2;   /* linhas finas sobre o bege */
+
+  --largura-max:    1080px;    /* largura máxima do conteúdo */
+  --raio:           18px;      /* arredondamento padrão dos cantos */
+}
+
+/* ==========================================================================
+   BLOCO 4 — LAYOUT E TIPOGRAFIA
+   ========================================================================== */
+
+/* O "*" atinge todo elemento. box-sizing: border-box faz a largura de uma
+   caixa já incluir a borda e o preenchimento — sem isso, todo cálculo de
+   layout dá errado por alguns pixels. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }  /* rolagem suave nos links internos */
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bege);
+  color: var(--texto);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* .faixa = uma seção de largura total. .interno = o miolo centralizado.
+   Separar os dois permite fundo colorido de ponta a ponta com texto no meio. */
+.faixa  { padding: 72px 24px; }
+.interno{ max-width: var(--largura-max); margin: 0 auto; }
+
+/* "clamp(mínimo, ideal, máximo)": o tamanho da fonte cresce junto com a tela,
+   mas nunca fica menor que o 1º valor nem maior que o 3º. É o mesmo princípio
+   do .clamp() que você já usa no Flutter — sem pixel fixo. */
+h1 {
+  font-size: clamp(30px, 6vw, 52px);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+h2 {
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+h3 { font-size: 19px; font-weight: 800; margin-bottom: 6px; }
+p  { font-size: clamp(15px, 2vw, 17px); }
+
+/* "Sobrancelha": rótulo pequeno em maiúsculas acima do título da seção.
+   Serve para orientar quem está passando o olho, não para decorar. */
+.sobrancelha {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--verde-pai);
+  margin-bottom: 10px;
+}
+
+/* ---- Botões ---- */
+.botao {
+  display: inline-block;
+  background: var(--verde-pai);
+  color: #fff;
+  padding: 16px 30px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(26,122,94,0.28);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.botao:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(26,122,94,0.34); }
+
+.botao-secundario {
+  background: transparent;
+  color: var(--verde-pai);
+  box-shadow: none;
+  border: 2px solid var(--verde-pai);
+}
+.botao-secundario:hover { background: rgba(26,122,94,0.07); transform: none; box-shadow: none; }
+
+/* Foco visível pelo teclado: obrigatório para acessibilidade.
+   Sem isto, quem navega por Tab não enxerga onde está. */
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ==========================================================================
+   BLOCO 5 (CSS) — O HERÓI: OS DOIS CELULARES
+   Esta é a assinatura visual da página. Em vez de explicar em texto que o app
+   sincroniza, a página MOSTRA: dois telefones lado a lado, o da esquerda com
+   a cara do Reader (bege, Verde Pai) e o da direita com a cara do Sonhador
+   (céu de boa noite, Azul Filho). O número da página muda nos dois, com um
+   pulso viajando entre eles. É desenhado 100% em CSS — zero imagem, zero KB.
+   ========================================================================== */
+
+.heroi {
+  background:
+    radial-gradient(1000px 420px at 50% -10%, rgba(26,122,94,0.10), transparent 65%),
+    var(--bege);
+  padding-top: 56px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid var(--borda);
+}
+
+/* Grade de 2 colunas no computador; vira 1 coluna no celular (ver @media). */
+.heroi-grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.heroi p.chamada {
+  font-size: clamp(16px, 2.4vw, 20px);
+  color: var(--texto-suave);
+  margin: 18px 0 28px;
+  max-width: 30ch;   /* "ch" = largura de um caractere. Trava a linha num
+                        comprimento confortável de ler, seja qual for a tela. */
+}
+
+.marca-topo { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.marca-topo img { width: 44px; height: 44px; border-radius: 10px; }
+.marca-topo span { font-weight: 900; font-size: 20px; letter-spacing: -0.01em; }
+
+.acoes { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.nota-loja { font-size: 13px; color: var(--texto-suave); margin-top: 14px; }
+
+/* ---- Os dois telefones ---- */
+.duo { display: flex; align-items: center; justify-content: center; gap: 0; }
+
+.fone {
+  width: 168px;
+  aspect-ratio: 9 / 18;          /* proporção de celular, sem altura fixa */
+  border-radius: 22px;
+  border: 6px solid #2A2A2A;     /* a "moldura" do aparelho */
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 18px 40px rgba(13,27,42,0.20);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Telefone da ESQUERDA = o adulto. Fundo bege, barra Verde Pai. */
+.fone-pai   { background: var(--bege); }
+.fone-pai .barra { background: var(--verde-pai); }
+
+/* Telefone da DIREITA = a criança. Céu de boa noite, barra Azul Filho.
+   É o mesmo gradiente #1B2D4F → #0F1B33 da grade de espera do Sonhador. */
+.fone-filho { background: linear-gradient(180deg, var(--ceu-topo), var(--ceu-base)); }
+.fone-filho .barra { background: var(--azul-filho); }
+
+.barra {
+  height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 9px; font-weight: 800; letter-spacing: .05em;
+  flex-shrink: 0;
+}
+
+.tela { flex: 1; padding: 12px 11px; display: flex; flex-direction: column; }
+
+/* Linhas cinzas simulando o texto que o pai lê. */
+.linha-texto { height: 6px; border-radius: 3px; background: rgba(27,45,79,.16); margin-bottom: 7px; }
+.linha-texto.curta { width: 62%; }
+
+/* Bloco escuro simulando a ilustração na tela da criança. */
+.arte {
+  flex: 1;
+  border-radius: 10px;
+  background: rgba(255,255,255,.09);
+  border: 1px solid rgba(255,255,255,.14);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px;
+}
+
+/* Estrelinhas do céu — pequenas, discretas, sem animação pesada. */
+.estrela { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; opacity: .5; }
+
+/* Rodapé de cada telefone: o número da página. Os DOIS mostram o mesmo. */
+.rodape-fone {
+  font-size: 9px; font-weight: 800; text-align: center;
+  padding: 6px 0; flex-shrink: 0;
+}
+.fone-pai   .rodape-fone { color: var(--verde-pai); }
+.fone-filho .rodape-fone { color: var(--menta); }
+
+/* ---- O conector: o cabo que "leva" a sincronia de um lado ao outro ---- */
+.conector { width: 64px; height: 3px; background: var(--borda); position: relative; border-radius: 2px; }
+
+/* A bolinha que percorre o conector a cada virada de página. */
+.pulso {
+  position: absolute; top: 50%; left: 0;
+  width: 9px; height: 9px; margin-top: -4.5px; margin-left: -4.5px;
+  border-radius: 50%;
+  background: var(--menta);
+  box-shadow: 0 0 12px var(--menta);
+  opacity: 0;
+}
+/* A classe .correndo é adicionada pelo JavaScript (Bloco 11) e dispara isto. */
+.pulso.correndo { animation: viajar 700ms ease-in-out; }
+@keyframes viajar {
+  0%   { left: 0;    opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { left: 64px; opacity: 0; }
+}
+
+/* RESPEITO A "REDUZIR MOVIMENTO": quem ativou essa opção no sistema
+   (por enxaqueca, epilepsia fotossensível, etc.) não vê a animação.
+   Não é opcional — é o mínimo de acessibilidade. */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ==========================================================================
+   BLOCO 6/7 (CSS) — CARTÕES DAS SEÇÕES
+   ========================================================================== */
+
+.grade-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+.grade-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px; }
+
+.cartao {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 26px 22px;
+}
+
+/* Os passos SÃO uma sequência (1 → 2 → 3), então numerar aqui significa algo.
+   Se não fossem, o número seria só enfeite e não deveria existir. */
+.passo-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--verde-pai); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 15px; margin-bottom: 14px;
+}
+.cartao p { color: var(--texto-suave); font-size: 15px; }
+
+/* Faixa escura — quebra visual e ecoa a tela de leitura do Sonhador. */
+.faixa-noite {
+  background: linear-gradient(180deg, var(--ceu-topo), var(--azul-noite));
+  color: #fff;
+}
+.faixa-noite .sobrancelha { color: var(--menta); }
+.faixa-noite .cartao { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.12); }
+.faixa-noite .cartao p { color: rgba(255,255,255,.74); }
+.faixa-noite h2, .faixa-noite h3 { color: #fff; }
+
+/* ---- Cartões de estória (Bloco 8) ---- */
+.grade-estorias { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 30px; }
+
+.estoria {
+  display: flex; align-items: center; gap: 14px;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: var(--texto);
+  transition: transform .15s ease, border-color .15s ease;
+}
+.estoria:hover { transform: translateY(-3px); border-color: var(--verde-pai); }
+.estoria .avatar {
+  width: 46px; height: 46px; flex-shrink: 0;
+  border-radius: 12px; background: var(--bege);
+  display: flex; align-items: center; justify-content: center; font-size: 24px;
+}
+.estoria strong { display: block; font-size: 15px; font-weight: 800; line-height: 1.25; }
+.estoria small  { color: var(--texto-suave); font-size: 12.5px; }
+
+/* Selo "Grátis" em Verde Pai — a mesma palavra e a mesma cor do selo da
+   Biblioteca no app (D-BIB-2). Carrega a PALAVRA, nunca só a cor. */
+.selo-gratis {
+  display: inline-block; margin-top: 3px;
+  font-size: 10.5px; font-weight: 800; letter-spacing: .04em;
+  color: var(--verde-pai); background: rgba(26,122,94,.11);
+  padding: 2px 7px; border-radius: 6px;
+}
+
+/* ---- Perguntas frequentes (Bloco 9) ----
+   <details>/<summary> são elementos nativos do HTML: abrem e fecham sozinhos,
+   sem uma linha de JavaScript, e o Google lê o conteúdo mesmo fechado. */
+.faq { margin-top: 28px; }
+.faq details {
+  border-bottom: 1px solid var(--borda);
+  padding: 18px 0;
+}
+.faq summary {
+  font-weight: 800; font-size: 17px; cursor: pointer; list-style: none;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; color: var(--verde-pai); font-size: 24px; font-weight: 900; }
+.faq details[open] summary::after { content: '−'; }
+.faq details p { margin-top: 10px; color: var(--texto-suave); max-width: 68ch; }
+
+/* ---- Rodapé (Bloco 10) ---- */
+.rodape { background: var(--azul-noite); color: rgba(255,255,255,.62); padding: 54px 24px 34px; }
+.rodape a { color: rgba(255,255,255,.82); text-decoration: none; }
+.rodape a:hover { color: #fff; text-decoration: underline; }
+.rodape-grade { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
+.rodape h4 { color: #fff; font-size: 14px; font-weight: 800; margin-bottom: 12px; letter-spacing: .04em; text-transform: uppercase; }
+.rodape ul { list-style: none; }
+.rodape li { margin-bottom: 8px; font-size: 14.5px; }
+
+/* Botões de rede social: quadrado com o ícone dentro (48x48 = alvo mínimo
+   de toque recomendado, o mesmo padrão do app). */
+.sociais { display: flex; gap: 10px; margin-top: 16px; }
+.sociais a {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s ease;
+}
+.sociais a:hover { background: var(--verde-pai); }
+.sociais svg { width: 20px; height: 20px; fill: #fff; }
+
+.creditos { margin-top: 34px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.10); font-size: 13px; }
+
+/* ==========================================================================
+   RESPONSIVO — abaixo de 860px de largura tudo vira uma coluna só.
+   O celular é a maioria do seu tráfego; teste sempre nele primeiro.
+   ========================================================================== */
+@media (max-width: 860px) {
+  .faixa { padding: 48px 20px; }
+  .heroi-grade,
+  .grade-3, .grade-2,
+  .grade-estorias,
+  .rodape-grade { grid-template-columns: 1fr; }
+  .heroi-grade { gap: 36px; }
+  .heroi p.chamada { max-width: none; }
+  .duo { transform: scale(.92); }
+  .acoes .botao { width: 100%; text-align: center; }
+}
+</style>
 </head>
+
 <body>
-  <div class="card">
-    <div class="emoji">📖</div>
-    <h1>SameSTORY</h1>
-    <p class="tagline">Ler juntos, mesmo distantes.</p>
-    <p>
-      Pai lê em voz alta no celular.<br>
-      Filho acompanha as imagens em tempo real.<br>
-      Qualquer distância.
-    </p>
-    <a class="botao"
-       href="https://play.google.com/store/apps/details?id=com.samestoryapp.app">
-      Baixar na Play Store
-    </a>
+
+<!-- ==========================================================================
+     BLOCO 5 — HERÓI
+     Só pode existir UM <h1> na página. Ele é o sinal mais forte de assunto que
+     você dá ao Google. Note que o <h1> aqui contém as palavras que a pessoa
+     realmente digitaria; a frase de marca ("Ler juntos, mesmo distantes")
+     continua na página, mas como apoio.
+     ========================================================================== -->
+<header class="faixa heroi">
+  <div class="interno heroi-grade">
+
+    <div>
+      <div class="marca-topo">
+        <!-- <!== EDITAR ==> aponte para a logo real do app -->
+        <img src="/logo.png" alt="">
+        <span>SameSTORY</span>
+      </div>
+
+      <h1>Leia a história para o seu filho, mesmo estando longe.</h1>
+
+      <p class="chamada">
+        Você lê em voz alta no seu celular. Ele acompanha as ilustrações
+        no celular dele — na mesma página, no mesmo instante.
+      </p>
+
+      <div class="acoes">
+        <!-- ⚠️ <!== EDITAR ==> DECISÃO IMPORTANTE (explicada no chat):
+             o app só entra no ar em novembro. Enquanto isso, este link é um
+             404. Escolha UMA das duas opções e apague a outra:
+
+             OPÇÃO A — antes do lançamento: avisar quando sair.
+             OPÇÃO B — depois do lançamento: link direto da Play Store.
+        -->
+
+        <!-- OPÇÃO A (usar AGORA) -->
+        <a class="botao" href="#avisar">Quero ser avisado no lançamento</a>
+        <a class="botao botao-secundario" href="#como-funciona">Ver como funciona</a>
+
+        <!-- OPÇÃO B (trocar pela A em novembro)
+        <a class="botao" href="https://play.google.com/store/apps/details?id=com.samestoryapp.app">
+          Baixar na Play Store
+        </a>
+        -->
+      </div>
+
+      <p class="nota-loja">Android · 3 estórias gratuitas · a criança não cria conta</p>
+    </div>
+
+    <!-- OS DOIS CELULARES.
+         aria-hidden="true" diz ao leitor de tela para IGNORAR este bloco:
+         é uma ilustração decorativa, e ler "linha, linha, linha" em voz alta
+         para uma pessoa cega só atrapalharia. O texto ao lado já explica tudo. -->
+    <div class="duo" aria-hidden="true">
+
+      <div class="fone fone-pai">
+        <div class="barra">VOCÊ LÊ</div>
+        <div class="tela">
+          <div class="linha-texto"></div>
+          <div class="linha-texto"></div>
+          <div class="linha-texto curta"></div>
+          <div style="height:10px"></div>
+          <div class="linha-texto"></div>
+          <div class="linha-texto curta"></div>
+        </div>
+        <!-- id="pagina-pai": o JavaScript do Bloco 11 troca este número. -->
+        <div class="rodape-fone">Página <span id="pagina-pai">1</span> de 12</div>
+      </div>
+
+      <div class="conector"><span class="pulso" id="pulso"></span></div>
+
+      <div class="fone fone-filho">
+        <!-- Estrelinhas posicionadas à mão: 5 pontos, nada mais. -->
+        <span class="estrela" style="top:34px;  left:22px"></span>
+        <span class="estrela" style="top:52px;  left:118px"></span>
+        <span class="estrela" style="top:88px;  left:64px"></span>
+        <span class="estrela" style="top:210px; left:30px"></span>
+        <span class="estrela" style="top:246px; left:126px"></span>
+        <div class="barra">ELE VÊ</div>
+        <div class="tela">
+          <!-- <!== EDITAR ==> quando tiver a arte, troque este emoji por
+               <img src="/img/pagina-exemplo.webp" alt=""> -->
+          <div class="arte" id="arte">🧟</div>
+        </div>
+        <div class="rodape-fone">Página <span id="pagina-filho">1</span> de 12</div>
+      </div>
+
+    </div>
   </div>
+</header>
+
+
+<!-- ==========================================================================
+     BLOCO 6 — COMO FUNCIONA
+     Três passos numerados. O número faz sentido aqui porque a ordem importa:
+     você não pode ler antes de parear.
+     ========================================================================== -->
+<section class="faixa" id="como-funciona">
+  <div class="interno">
+    <p class="sobrancelha">Como funciona</p>
+    <h2>Três passos, uma vez só.</h2>
+
+    <div class="grade-3">
+      <div class="cartao">
+        <div class="passo-num">1</div>
+        <h3>Você vincula o aparelho</h3>
+        <p>Um código de 6 caracteres ou um QR liga o celular ou tablet da criança à sua conta. Feito uma vez, vale sempre.</p>
+      </div>
+      <div class="cartao">
+        <div class="passo-num">2</div>
+        <h3>Você escolhe a estória</h3>
+        <p>O aparelho dele acende sozinho com a capa da estória. Não precisa procurar nada, nem saber ler.</p>
+      </div>
+      <div class="cartao">
+        <div class="passo-num">3</div>
+        <h3>Você lê em voz alta</h3>
+        <p>Cada página que você vira aparece na hora do outro lado. A voz é a sua, ao vivo — pelo app ou pelo telefone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     BLOCO 7 — PARA QUEM É
+     Esta seção existe por dois motivos ao mesmo tempo:
+       1) Humano: a pessoa se reconhece numa das situações e entende o valor.
+       2) Google: cada cartão contém, em texto natural, uma busca real
+          ("pai que viaja a trabalho", "avó que mora longe", "pais separados").
+          Você não está enchendo linguiça de palavra-chave — está descrevendo
+          quem usa. É a forma honesta de fazer SEO, e a única que dura.
+     ========================================================================== -->
+<section class="faixa faixa-noite">
+  <div class="interno">
+    <p class="sobrancelha">Para quem é</p>
+    <h2>Feito para quem ama uma criança e está longe dela na hora de dormir.</h2>
+
+    <div class="grade-2">
+      <div class="cartao">
+        <h3>Quem viaja a trabalho</h3>
+        <p>Você está em outro estado, num quarto de hotel, e a hora de dormir chegou. A leitura da noite acontece do mesmo jeito.</p>
+      </div>
+      <div class="cartao">
+        <h3>Avós que moram longe</h3>
+        <p>A vó lê, o neto vê as ilustrações. Sem precisar segurar o telefone apontado para o livro, sem chamada de vídeo tremida.</p>
+      </div>
+      <div class="cartao">
+        <h3>Pais e mães separados</h3>
+        <p>Nas noites em que a criança está na outra casa, a leitura continua sendo um ritual seu — não uma ausência.</p>
+      </div>
+      <div class="cartao">
+        <h3>Família em outro país</h3>
+        <p>Sete idiomas no lançamento. Cada um lê no idioma que preferir, na mesma estória, ao mesmo tempo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     BLOCO 8 — ESTÓRIAS
+     >>> ESTE É O BLOCO MAIS IMPORTANTE PARA O GOOGLE. <<<
+     Suas páginas /e/<id> já existem e já têm conteúdo, mas hoje são "órfãs":
+     nenhuma página aponta para elas. O Google descobre páginas seguindo links.
+     Ligando a home a elas, você transforma 25 páginas soltas num site.
+
+     <!== EDITAR ==> confira cada id contra o seu catalog.json. Um id errado
+     aqui vira um link quebrado — que é pior do que não ter o link.
+     ========================================================================== -->
+<section class="faixa" id="estorias">
+  <div class="interno">
+    <p class="sobrancelha">Estórias</p>
+    <h2>Personagens originais, escritos e ilustrados para este app.</h2>
+    <p style="color:var(--texto-suave); max-width:62ch; margin-top:10px">
+      Nada de conteúdo genérico: Bebê Luca, Dudu, Veloz e os outros nasceram aqui.
+      Toque em qualquer um para ver a estória inteira.
+    </p>
+
+    <div class="grade-estorias">
+
+      <a class="estoria" href="/e/bebe_luca_zumbi_do_bem_01">
+        <span class="avatar">🧟</span>
+        <span>
+          <strong>Bebê Luca, o Zumbi do Bem</strong>
+          <small>Bebê Luca · Parte 1</small><br>
+          <span class="selo-gratis">Grátis</span>
+        </span>
+      </a>
+
+      <a class="estoria" href="/e/bebe_luca_zumbi_do_bem_02_no_parquinho">
+        <span class="avatar">🧟</span>
+        <span>
+          <strong>Bebê Luca no Parquinho</strong>
+          <small>Bebê Luca · Parte 2</small>
+        </span>
+      </a>
+
+      <a class="estoria" href="/e/dudu_o_menino_do_contra_01">
+        <span class="avatar">😤</span>
+        <span>
+          <strong>Dudu, o Menino do Contra</strong>
+          <small>Dudu · Parte 1</small>
+        </span>
+      </a>
+
+      <a class="estoria" href="/e/veloz_a_tartaruga_ligeira_01">
+        <span class="avatar">🐢</span>
+        <span>
+          <strong>Veloz, a Tartaruga Ligeira</strong>
+          <small>Veloz · Parte 1</small>
+        </span>
+      </a>
+
+      <a class="estoria" href="/e/fernando_o_lobisomem_vegano_01">
+        <span class="avatar">🐺</span>
+        <span>
+          <strong>Fernando, o Lobisomem Vegano</strong>
+          <small>Fernando · Parte 1</small>
+        </span>
+      </a>
+
+      <a class="estoria" href="/e/homem_catenga_01">
+        <span class="avatar">🦎</span>
+        <span>
+          <strong>A Origem do Homem Catenga</strong>
+          <small>Homem Catenga · Parte 1</small>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     BLOCO 9 — PERGUNTAS FREQUENTES
+     O texto daqui é o MESMO que está no JSON-LD do Bloco 2. Precisa ser
+     idêntico: o Google compara os dois e penaliza quem descreve no código
+     algo que não está visível na tela.
+     ========================================================================== -->
+<section class="faixa" id="perguntas" style="background:#fff; border-top:1px solid var(--borda)">
+  <div class="interno">
+    <p class="sobrancelha">Perguntas frequentes</p>
+    <h2>O que as pessoas perguntam antes de baixar.</h2>
+
+    <div class="faq">
+      <details open>
+        <summary>Como o SameSTORY funciona à distância?</summary>
+        <p>Você abre a história no seu celular e vira as páginas normalmente enquanto lê em voz alta. O celular da criança acompanha e mostra a ilustração da mesma página, no mesmo instante, mesmo que vocês estejam em cidades diferentes.</p>
+      </details>
+
+      <details>
+        <summary>A voz é gravada ou é uma narração automática?</summary>
+        <p>Nenhuma das duas. A voz é a sua, ao vivo. O SameSTORY não usa narração artificial e não grava o áudio da leitura em nenhum momento.</p>
+      </details>
+
+      <details>
+        <summary>A criança precisa criar uma conta?</summary>
+        <p>Não. Só o adulto responsável tem conta. O aparelho da criança é vinculado por um código e não pede nome, e-mail, senha nem qualquer dado pessoal.</p>
+      </details>
+
+      <details>
+        <summary>É gratuito?</summary>
+        <p>Três estórias completas são gratuitas, sem prazo. O catálogo completo fica disponível por assinatura, que o adulto pode cancelar quando quiser pela Google Play.</p>
+      </details>
+
+      <details>
+        <summary>Serve para avós, pais separados ou quem viaja a trabalho?</summary>
+        <p>Sim. O SameSTORY foi feito exatamente para essas situações: qualquer adulto que ame uma criança e esteja longe dela na hora de dormir.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     CHAMADA FINAL — o alvo do botão do herói (href="#avisar")
+     <!== EDITAR ==> ver instruções no chat sobre como capturar o e-mail
+     sem servidor (GitHub Pages não roda código de servidor).
+     ========================================================================== -->
+<section class="faixa" id="avisar" style="text-align:center; background:var(--bege); border-top:1px solid var(--borda)">
+  <div class="interno" style="max-width:640px">
+    <h2>O app chega em novembro.</h2>
+    <p style="color:var(--texto-suave); margin:14px 0 26px">
+      Deixe seu e-mail e avisamos no dia. Sem lista de spam, sem propaganda.
+    </p>
+    <a class="botao" href="https://forms.gle/SEU_FORMULARIO_AQUI">Quero ser avisado</a>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     BLOCO 10 — RODAPÉ
+     Aqui ficam três coisas que o Google valoriza e que o seu site não tem:
+       · links para as redes sociais (o par visível do "sameAs" do Bloco 2);
+       · links para políticas e "Sobre nós" (sinais de site legítimo, e o
+         Google Play exige a política publicada de qualquer forma);
+       · seletor de idioma.
+     ========================================================================== -->
+<footer class="rodape">
+  <div class="interno">
+    <div class="rodape-grade">
+
+      <div>
+        <h4>SameSTORY</h4>
+        <p style="font-size:14.5px; max-width:34ch">
+          Ler juntos, mesmo distantes. Um projeto independente, feito por um pai.
+        </p>
+
+        <!-- ÍCONES DAS REDES.
+             rel="me" é um detalhe pequeno com efeito real: declara "este perfil
+             sou eu". Junto com o "sameAs" do Bloco 2, fecha a ligação dos dois
+             lados. target="_blank" abre em nova aba; noopener é obrigatório
+             junto com ele por segurança (impede que a página aberta manipule
+             a sua). Cada link tem aria-label porque o ícone é um desenho e o
+             leitor de tela não sabe ler desenho. -->
+        <div class="sociais">
+          <a href="https://www.instagram.com/SameSTORYapp" rel="me noopener" target="_blank" aria-label="SameSTORY no Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 5.68a4.16 4.16 0 100 8.32 4.16 4.16 0 000-8.32zm0 6.86a2.7 2.7 0 110-5.4 2.7 2.7 0 010 5.4zm5.3-7.02a.97.97 0 11-1.94 0 .97.97 0 011.94 0z"/></svg>
+          </a>
+          <a href="https://x.com/SameSTORYapp" rel="me noopener" target="_blank" aria-label="SameSTORY no X">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.22-6.82-5.96 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.02 4.13H5.06z"/></svg>
+          </a>
+          <!-- <!== EDITAR ==> confirme o @ real do TikTok antes de subir -->
+          <a href="https://www.tiktok.com/@SameSTORYapp" rel="me noopener" target="_blank" aria-label="SameSTORY no TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.82a4.28 4.28 0 01-1.06-2.82h-3.2v12.9a2.6 2.6 0 11-1.87-2.5V10.1a5.77 5.77 0 105.07 5.73V9.4a7.42 7.42 0 004.33 1.39V7.6a4.3 4.3 0 01-3.27-1.78z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4>O app</h4>
+        <ul>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#estorias">Estórias</a></li>
+          <li><a href="#perguntas">Perguntas frequentes</a></li>
+          <li><a href="/sobre.html">Sobre nós</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <!-- <!== EDITAR ==> confira os nomes reais dos arquivos publicados -->
+          <li><a href="/privacidade.html">Privacidade</a></li>
+          <li><a href="/termos.html">Termos de uso</a></li>
+          <li><a href="/privacidade.html#criancas">Crianças e dados</a></li>
+        </ul>
+
+        <h4 style="margin-top:22px">Idiomas</h4>
+        <ul>
+          <li><a href="/about.html">English</a> · <a href="/acerca.html">Español</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="creditos">
+      © <span id="ano">2026</span> SameSTORY · Na Mesma Estória.
+      Marca registrada em processo no INPI.
+    </div>
+  </div>
+</footer>
+
+
+<!-- ==========================================================================
+     BLOCO 11 — JAVASCRIPT
+     Só faz duas coisas pequenas. Se você apagar tudo isto, a página continua
+     funcionando perfeitamente — só os telefones ficam parados.
+     ========================================================================== -->
+<script>
+// ---- 1) O ano do rodapé se atualiza sozinho ----
+// Assim você não precisa lembrar de trocar "2026" para "2027" em janeiro.
+document.getElementById('ano').textContent = new Date().getFullYear();
+
+// ---- 2) A animação de sincronia entre os dois telefones ----
+
+// Primeiro: se a pessoa pediu "reduzir movimento" no sistema dela, nem começa.
+// matchMedia pergunta ao navegador se aquela condição de CSS está valendo.
+var reduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!reduzirMovimento) {
+
+  // Guardamos os três pedaços da tela que vamos mexer.
+  var pagPai   = document.getElementById('pagina-pai');    // número no fone do pai
+  var pagFilho = document.getElementById('pagina-filho');  // número no fone do filho
+  var pulso    = document.getElementById('pulso');         // a bolinha do conector
+  var arte     = document.getElementById('arte');          // o emoji da ilustração
+
+  var pagina = 1;                               // em que página estamos
+  var figuras = ['🧟', '🌳', '🎈', '🌙'];        // muda a "arte" a cada virada
+
+  // setInterval repete uma função para sempre, a cada X milissegundos.
+  // 3200 ms = 3,2 segundos entre uma virada e outra.
+  setInterval(function () {
+
+    // (a) Avança a página. O "% 12" faz voltar ao 1 depois do 12.
+    pagina = (pagina % 12) + 1;
+
+    // (b) O PAI vira primeiro — é ele quem comanda.
+    pagPai.textContent = pagina;
+
+    // (c) Dispara a bolinha no conector.
+    //     Removemos e recolocamos a classe para a animação poder rodar de novo:
+    //     o navegador só reinicia uma animação se a classe sair e voltar.
+    pulso.classList.remove('correndo');
+    void pulso.offsetWidth;              // truque que força o navegador a "reler"
+    pulso.classList.add('correndo');
+
+    // (d) O FILHO vira 550 ms depois — o tempo que a bolinha leva pra chegar.
+    //     setTimeout roda a função UMA vez, depois da espera.
+    setTimeout(function () {
+      pagFilho.textContent = pagina;
+      arte.textContent = figuras[pagina % figuras.length];
+    }, 550);
+
+  }, 3200);
+}
+</script>
+
 </body>
 </html>

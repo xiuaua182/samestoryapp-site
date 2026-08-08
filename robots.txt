@@ -1,0 +1,19 @@
+# robots.txt — samestoryapp.com
+# Este arquivo é a primeira coisa que todo robô de busca lê no seu site.
+# Hoje ele não existe: o Google adivinha, e adivinhar é sempre pior.
+# Ele vai na RAIZ do site (samestoryapp.com/robots.txt), nunca numa subpasta.
+
+# "User-agent: *" = a regra abaixo vale para TODOS os robôs.
+User-agent: *
+
+# "Disallow:" vazio significa "não proibido nada" — pode rastrear tudo.
+Disallow:
+
+# A pasta /j/ são os links de pareamento (samestoryapp.com/j/H2K9P4).
+# São códigos temporários de 10 minutos: não fazem sentido num resultado de
+# busca e só sujariam o índice. Por isso, esta é a única pasta bloqueada.
+Disallow: /j/
+
+# Onde está o mapa do site. É assim que o Google encontra suas 25 páginas
+# de estória sem depender só de seguir links.
+Sitemap: https://samestoryapp.com/sitemap.xml
