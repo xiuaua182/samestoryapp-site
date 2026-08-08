@@ -116,6 +116,7 @@
         "url": "https://samestoryapp.com/",
         "logo": "https://samestoryapp.com/logo.png",
         "description": "Aplicativo de leitura compartilhada em tempo real entre um adulto e uma criança, em dispositivos diferentes.",
+        "email": "SameSTORYapp@gmail.com",
         "sameAs": [
           "https://www.instagram.com/SameSTORYapp",
           "https://x.com/SameSTORYapp",
@@ -733,19 +734,24 @@ a:focus-visible, button:focus-visible {
       </p>
 
       <div class="acoes">
-        <!-- ⚠️ <!== EDITAR ==> DECISÃO IMPORTANTE (explicada no chat):
-             o app só entra no ar em novembro. Enquanto isso, este link é um
-             404. Escolha UMA das duas opções e apague a outra:
+        <!-- ⚠️ <!== EDITAR ==> DECISÃO IMPORTANTE:
+             enquanto o app não estiver publicado na Play Store, o link da
+             loja é um 404. Escolha UMA das duas opções e apague a outra:
 
-             OPÇÃO A — antes do lançamento: avisar quando sair.
-             OPÇÃO B — depois do lançamento: link direto da Play Store.
+             OPÇÃO A — antes da publicação: recolher e-mail de interessados.
+             OPÇÃO B — depois da publicação: link direto da Play Store.
+
+             ⚠️ Nenhum texto desta página promete data de lançamento, e isso
+             é proposital: data anunciada e não cumprida queima confiança de
+             quem se inscreveu, e a página fica desatualizada sozinha se o
+             cronograma escorregar. "Em breve" nunca vence o prazo.
         -->
 
         <!-- OPÇÃO A (usar AGORA) -->
-        <a class="botao" href="#avisar">Quero ser avisado no lançamento</a>
+        <a class="botao" href="#avisar">Avise-me quando lançar</a>
         <a class="botao botao-secundario" href="#como-funciona">Ver como funciona</a>
 
-        <!-- OPÇÃO B (trocar pela A em novembro)
+        <!-- OPÇÃO B (trocar pela A no dia em que o app for publicado)
         <a class="botao" href="https://play.google.com/store/apps/details?id=com.samestoryapp.app">
           Baixar na Play Store
         </a>
@@ -1067,16 +1073,53 @@ a:focus-visible, button:focus-visible {
 
 <!-- ==========================================================================
      CHAMADA FINAL — o alvo do botão do herói (href="#avisar")
-     <!== EDITAR ==> ver instruções no chat sobre como capturar o e-mail
-     sem servidor (GitHub Pages não roda código de servidor).
+
+     COMO ISTO FUNCIONA (revisão 3): não é um formulário, é um "mailto".
+     Um link mailto abre o aplicativo de e-mail do visitante já com o
+     destinatário e o assunto preenchidos. Ele só toca em "enviar".
+
+     Por que isto e não um formulário: o GitHub Pages serve arquivos, não roda
+     código de servidor — um formulário de verdade exigiria um serviço à parte.
+     O mailto funciona hoje, sem cadastro em lugar nenhum e sem custo.
+
+     Limites honestos do mailto (para você saber, não para se preocupar agora):
+       · em computador sem programa de e-mail configurado, o link pode não
+         abrir nada — por isso o endereço aparece ESCRITO logo abaixo do
+         botão, para a pessoa copiar. No celular, funciona sempre.
+       · você recebe e-mails soltos na caixa de entrada e monta a lista à mão.
+         Enquanto forem dezenas, tudo bem. Passando disso, vale um serviço
+         próprio de lista.
+
+     ANATOMIA DO LINK:
+       mailto:endereco?subject=assunto&body=corpo
+       Os espaços viram %20 e os acentos viram códigos (ç = %C3%A7).
+       Isso se chama "codificação de URL" e é obrigatório: um espaço cru
+       quebra o link em alguns aplicativos de e-mail.
      ========================================================================== -->
 <section class="faixa" id="avisar" style="text-align:center; background:#fff; border-top:1px solid var(--borda)">
   <div class="interno" style="max-width:640px">
-    <h2>O app chega em novembro.</h2>
+
+    <h2>O app está chegando.</h2>
+
     <p style="color:var(--texto-suave); margin:14px 0 26px">
-      Deixe seu e-mail e avisamos no dia. Sem lista de spam, sem propaganda.
+      Deixe seu e-mail e avisamos assim que ele entrar no ar.
+      Sem lista de spam, sem propaganda.
     </p>
-    <a class="botao" href="https://forms.gle/SEU_FORMULARIO_AQUI">Quero ser avisado</a>
+
+    <!-- subject = "Quero ser avisado do lançamento"
+         body    = "Oi! Me avisem quando o SameSTORY estiver no ar." -->
+    <a class="botao"
+       href="mailto:SameSTORYapp@gmail.com?subject=Quero%20ser%20avisado%20do%20lan%C3%A7amento&body=Oi!%20Me%20avisem%20quando%20o%20SameSTORY%20estiver%20no%20ar.">
+      Quero ser avisado
+    </a>
+
+    <!-- O endereço escrito é a rede de segurança de quem clicar e não
+         acontecer nada. Nunca deixe um mailto sozinho. -->
+    <p style="color:var(--texto-suave); font-size:13.5px; margin-top:16px">
+      Ou escreva direto para
+      <a href="mailto:SameSTORYapp@gmail.com" style="color:var(--verde-pai); font-weight:700">SameSTORYapp@gmail.com</a>
+    </p>
+
   </div>
 </section>
 
@@ -1127,6 +1170,7 @@ a:focus-visible, button:focus-visible {
           <li><a href="#estorias">Estórias</a></li>
           <li><a href="#perguntas">Perguntas frequentes</a></li>
           <li><a href="/sobre.html">Sobre nós</a></li>
+          <li><a href="mailto:SameSTORYapp@gmail.com">Contato</a></li>
         </ul>
       </div>
 
