@@ -63,6 +63,18 @@
       font-family: 'Courier New', monospace;
     }
 
+    /* ──────────────────────────────────────────────────────────────
+       HIERARQUIA DOS BOTÕES — mudou de propósito.
+
+       Quem está vendo esta página é, quase sempre, alguém que NÃO
+       tem o app: se tivesse, o Android teria aberto o app direto e
+       esta página nem apareceria.
+
+       Por isso o botão principal (verde da marca) passou a ser o de
+       INSTALAR. O de "já tenho o app" virou um link discreto.
+       Antes era o contrário — o botão mais chamativo era justamente
+       o que não funciona neste contexto.
+       ────────────────────────────────────────────────────────────── */
     .botao {
       display: block;
       background: #1A7A5E;
@@ -80,6 +92,20 @@
     .botao:active {
       transform: scale(0.98);
       box-shadow: 0 2px 8px rgba(26,122,94,0.3);
+    }
+
+    /* Botão secundário: mesma forma, sem peso visual. */
+    .botao-secundario {
+      display: block;
+      background: transparent;
+      color: #1A7A5E;
+      border: 1.5px solid #D8D2C8;
+      padding: 14px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      box-shadow: none;
     }
 
     .divider {
@@ -117,6 +143,9 @@
       font-size: 18px;
       margin-top: 8px;
     }
+
+    /* Bloco escondido quando a URL não traz um código válido. */
+    .oculto { display: none; }
   </style>
 </head>
 <body>
@@ -125,21 +154,28 @@
     <h1>Você foi convidado para ler junto!</h1>
     <p class="subtitulo">Pai e filho na mesma história, mesmo distantes.</p>
 
-    <div class="codigo-label">Código da sessão</div>
-    <div class="codigo" id="codigo">—</div>
+    <!-- Todo o bloco do código some se a URL não trouxer um código
+         válido (ex: alguém abriu samestoryapp.com/j/ sem nada depois).
+         Antes a página mostrava um travessão "—" sem explicação. -->
+    <div id="blocoCodigo">
+      <div class="codigo-label">Código da sessão</div>
+      <div class="codigo" id="codigo">—</div>
+    </div>
 
-    <a class="botao" href="#" id="botaoAbrir">Abrir no SameSTORY</a>
+    <!-- BOTÃO PRINCIPAL: instalar.
+         O href real é montado pelo script lá embaixo, porque ele
+         precisa carregar o código da sessão junto. O endereço aqui
+         é só o fallback (Play Store sem código) para o caso de o
+         JavaScript não rodar. -->
+    <a class="botao" id="botaoInstalar"
+       href="https://play.google.com/store/apps/details?id=com.samestoryapp.app">
+      Instalar SameSTORY
+    </a>
 
-    <div class="divider">ou</div>
-
-    <p class="info">
-      Ainda não tem o app?<br>
-      <a class="botao" href="https://play.google.com/store/apps/details?id=com.samestoryapp.app"
-         style="margin-top: 12px; background: #2A6DB5;
-                box-shadow: 0 4px 16px rgba(42,109,181,0.3);">
-        Instalar SameSTORY
-      </a>
-    </p>
+    <!-- BOTÃO SECUNDÁRIO: para quem já tem o app instalado mas caiu
+         aqui mesmo assim (verificação de App Links falhou, ou o link
+         foi aberto de dentro de um app que não respeita App Links). -->
+    <a class="botao-secundario" href="#" id="botaoAbrir">Já tenho o app</a>
 
     <div class="divider">ou</div>
 
@@ -150,20 +186,93 @@
   </div>
 
   <script>
-    // Extrai o código da URL: /j/A3 → 'A3'
+    // =================================================================
+    // 1) DE ONDE VEM O CÓDIGO
+    //
+    // A URL é https://samestoryapp.com/j/8PT7D3 — o código é o último
+    // pedaço do caminho. O filter(Boolean) joga fora os pedaços vazios
+    // (a barra final, por exemplo).
+    // =================================================================
     const partes = window.location.pathname.split('/').filter(Boolean);
-    // partes = ['j', 'A3'] ou ['A3'] dependendo de como o 404 serviu
-    const codigo = (partes[partes.length - 1] || '').toUpperCase();
+    const bruto = (partes[partes.length - 1] || '').toUpperCase();
 
-    if (codigo && codigo !== 'J') {
+    // =================================================================
+    // 2) O CÓDIGO É VÁLIDO?
+    //
+    // O app sorteia códigos com este alfabeto exato (session_service.dart):
+    //   ABCDEFGHJKLMNPQRSTUVWXYZ23456789
+    // Sem 0/O e sem 1/I, que as pessoas confundem ao ler.
+    //
+    // Validar AQUI evita dois problemas: mostrar lixo em fonte 56px,
+    // e mandar lixo para dentro do bilhete da Play Store. A faixa de
+    // 4 a 8 caracteres é folgada de propósito — o formato de hoje é 6,
+    // mas a página não deve quebrar se um dia mudar.
+    // =================================================================
+    const padraoCodigo = /^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{4,8}$/;
+    const codigo = padraoCodigo.test(bruto) ? bruto : null;
+
+    if (codigo) {
+      // Mostra o código nos dois lugares (o grandão e o de digitar).
       document.getElementById('codigo').textContent = codigo;
       document.getElementById('codigoManual').textContent = codigo;
 
-      // Link que tenta abrir o app diretamente via deep link.
-      // Se o app estiver instalado, o Android intercepta.
-      // Se não estiver, cai na Play Store (fallback do botão Instalar).
+      // ===============================================================
+      // 3) O BILHETE DA PLAY STORE — o coração desta mudança
+      //
+      // O PROBLEMA QUE ISTO RESOLVE:
+      //   Clicar em "Instalar" e abrir o app são dois momentos
+      //   separados, que podem ter dias de distância. Nada viaja
+      //   sozinho de um para o outro. Sem o bilhete abaixo, quem
+      //   instala por aqui chega no app sem o código e precisa
+      //   digitá-lo à mão.
+      //
+      // COMO FUNCIONA:
+      //   A Play Store guarda o que vier no parâmetro "referrer" e
+      //   entrega ao app na PRIMEIRA execução. É a única ponte que
+      //   atravessa a instalação.
+      //
+      // POR QUE utm_term E NÃO utm_content:
+      //   utm_content é o espaço de nomes das ESTÓRIAS (as páginas /e/
+      //   usam ele desde julho). Se o código de sessão viesse por ali,
+      //   o app o trataria como id de estória e tentaria abrir uma
+      //   estória que não existe.
+      //   Usando utm_term, o app ATUAL simplesmente ignora o bilhete —
+      //   ele procura utm_content, não acha, e sai quieto. Ou seja:
+      //   esta página é segura de publicar ANTES de o app aprender a
+      //   ler o novo formato.
+      //
+      // POR QUE encodeURIComponent:
+      //   O bilhete é um endereço dentro de outro endereço. Sem
+      //   codificar, os "&" do bilhete seriam lidos como separadores
+      //   da URL da Play e o bilhete chegaria picado.
+      // ===============================================================
+      const bilhete = 'utm_source=samestoryapp'
+                    + '&utm_medium=join'
+                    + '&utm_term=' + codigo;
+
+      document.getElementById('botaoInstalar').href =
+        'https://play.google.com/store/apps/details'
+        + '?id=com.samestoryapp.app'
+        + '&referrer=' + encodeURIComponent(bilhete);
+
+      // ===============================================================
+      // 4) O BOTÃO "JÁ TENHO O APP"
+      //
+      // Aponta para a MESMA URL desta página, de propósito: é assim
+      // que o Android intercepta um App Link e abre o app. Se o app
+      // não estiver instalado (o caso normal aqui), o navegador só
+      // recarrega esta página — por isso ele é secundário, e não o
+      // botão principal como era antes.
+      // ===============================================================
       document.getElementById('botaoAbrir').href =
         'https://samestoryapp.com/j/' + codigo;
+    } else {
+      // Sem código válido: esconde o bloco do código e o botão de
+      // "já tenho o app" (que não teria para onde ir). O botão de
+      // instalar continua, sem bilhete — ainda é uma página útil.
+      document.getElementById('blocoCodigo').classList.add('oculto');
+      document.getElementById('botaoAbrir').classList.add('oculto');
+      document.getElementById('codigoManual').textContent = '—';
     }
   </script>
 </body>
