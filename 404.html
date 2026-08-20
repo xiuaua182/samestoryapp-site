@@ -63,6 +63,17 @@
       font-family: 'Courier New', monospace;
     }
 
+    /* ──────────────────────────────────────────────────────────────
+       HIERARQUIA DOS BOTÕES — invertida de propósito.
+
+       Quem vê esta página é, quase sempre, alguém que NÃO tem o app:
+       se tivesse, o Android teria aberto o app direto e a página nem
+       apareceria. Por isso o botão principal (verde da marca) é o de
+       INSTALAR. O "já tenho o app" virou link discreto.
+
+       Na versão anterior era o contrário — o botão mais chamativo
+       apontava para esta mesma URL, ou seja, recarregava a página.
+       ────────────────────────────────────────────────────────────── */
     .botao {
       display: block;
       background: #1A7A5E;
@@ -80,6 +91,19 @@
     .botao:active {
       transform: scale(0.98);
       box-shadow: 0 2px 8px rgba(26,122,94,0.3);
+    }
+
+    .botao-secundario {
+      display: block;
+      background: transparent;
+      color: #1A7A5E;
+      border: 1.5px solid #D8D2C8;
+      padding: 14px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      box-shadow: none;
     }
 
     .divider {
@@ -117,53 +141,183 @@
       font-size: 18px;
       margin-top: 8px;
     }
+
+    /* A página nasce INVISÍVEL e o script mostra só o painel certo.
+       Sem isso, o visitante veria por um instante o painel errado
+       (o "convite" piscando numa página de erro, por exemplo). */
+    .oculto { display: none; }
   </style>
 </head>
 <body>
-  <div class="card">
+
+  <!-- ================================================================
+       PAINEL 1 — CONVITE  (caminhos /j/…)
+       ================================================================ -->
+  <div class="card oculto" id="painelConvite">
     <div class="emoji">📖</div>
     <h1>Você foi convidado para ler junto!</h1>
     <p class="subtitulo">Pai e filho na mesma história, mesmo distantes.</p>
 
-    <div class="codigo-label">Código da sessão</div>
-    <div class="codigo" id="codigo">—</div>
+    <!-- Some quando a URL não traz um código válido (ex.: alguém
+         abriu samestoryapp.com/j/ direto). Antes a página mostrava
+         um travessão "—" sem nenhuma explicação. -->
+    <div id="blocoCodigo">
+      <div class="codigo-label">Código do convite</div>
+      <div class="codigo" id="codigo">—</div>
+    </div>
 
-    <a class="botao" href="#" id="botaoAbrir">Abrir no SameSTORY</a>
+    <!-- BOTÃO PRINCIPAL. O href definitivo é montado pelo script,
+         porque precisa carregar o código junto. O endereço escrito
+         aqui é o fallback, caso o JavaScript não rode. -->
+    <a class="botao" id="botaoInstalar"
+       href="https://play.google.com/store/apps/details?id=com.samestoryapp.app">
+      Instalar SameSTORY
+    </a>
 
-    <div class="divider">ou</div>
+    <!-- Para quem já tem o app mas caiu aqui mesmo assim (verificação
+         de App Links falhou, ou o link foi aberto de dentro de um app
+         que não respeita App Links). -->
+    <a class="botao-secundario oculto" href="#" id="botaoAbrir">Já tenho o app</a>
 
-    <p class="info">
-      Ainda não tem o app?<br>
-      <a class="botao" href="https://play.google.com/store/apps/details?id=com.samestoryapp.app"
-         style="margin-top: 12px; background: #2A6DB5;
-                box-shadow: 0 4px 16px rgba(42,109,181,0.3);">
-        Instalar SameSTORY
-      </a>
-    </p>
+    <div class="divider" id="divisorManual">ou</div>
 
-    <div class="divider">ou</div>
-
-    <p class="info">
-      Com o app aberto, digite o código:<br>
+    <p class="info" id="blocoManual">
+      Se preferir, abra o app e use este código:<br>
       <span class="codigo-manual" id="codigoManual">—</span>
     </p>
   </div>
 
+  <!-- ================================================================
+       PAINEL 2 — PÁGINA NÃO ENCONTRADA  (qualquer outro caminho)
+
+       POR QUE ESTE PAINEL EXISTE:
+       Este arquivo é o 404 do site INTEIRO. Antes, quem errasse o
+       endereço de uma estória — /e/bebe_luka em vez de /e/bebe_luca —
+       recebia "Você foi convidado para ler junto!", sem ter sido
+       convidado por ninguém. Confuso e sem saída.
+       ================================================================ -->
+  <div class="card oculto" id="painelErro">
+    <div class="emoji">🔍</div>
+    <h1>Não encontramos esta página</h1>
+    <p class="subtitulo">
+      O endereço pode ter sido digitado com algum erro,
+      ou esta página pode ter mudado de lugar.
+    </p>
+
+    <a class="botao" href="https://samestoryapp.com/">Ir para o início</a>
+
+    <div class="divider">ou</div>
+
+    <p class="info">
+      Se você recebeu um convite para ler junto,<br>
+      peça o link novamente para quem te convidou.
+    </p>
+  </div>
+
   <script>
-    // Extrai o código da URL: /j/A3 → 'A3'
+    // =================================================================
+    // ESTE ARQUIVO ATENDE A DOIS PAPÉIS
+    //
+    // No GitHub Pages, /j/8PT7D3 não existe como arquivo nem como
+    // pasta — então quem responde é este 404.html. É por aqui que
+    // TODO convite real passa. O /j/index.html só é servido quando
+    // alguém abre /j/ sem código, o que praticamente não acontece.
+    //
+    // Como o mesmo arquivo também responde por qualquer endereço
+    // errado do site, ele precisa decidir o que mostrar. É o que o
+    // bloco abaixo faz.
+    // =================================================================
+
+    // Quebra o caminho em pedaços e joga fora os vazios.
+    // "/j/8PT7D3" → ['j', '8PT7D3']
     const partes = window.location.pathname.split('/').filter(Boolean);
-    // partes = ['j', 'A3'] ou ['A3'] dependendo de como o 404 serviu
-    const codigo = (partes[partes.length - 1] || '').toUpperCase();
 
-    if (codigo && codigo !== 'J') {
-      document.getElementById('codigo').textContent = codigo;
-      document.getElementById('codigoManual').textContent = codigo;
+    // É um caminho de convite? (o /j/ vem de "join")
+    // O toLowerCase aceita /J/ maiúsculo digitado à mão.
+    const ehConvite = partes.length > 0 && partes[0].toLowerCase() === 'j';
 
-      // Link que tenta abrir o app diretamente via deep link.
-      // Se o app estiver instalado, o Android intercepta.
-      // Se não estiver, cai na Play Store (fallback do botão Instalar).
-      document.getElementById('botaoAbrir').href =
-        'https://samestoryapp.com/j/' + codigo;
+    // Último pedaço, padronizado em maiúsculo — os códigos do app
+    // são sempre maiúsculos.
+    const ultimo = (partes[partes.length - 1] || '').toUpperCase();
+
+    // ATENÇÃO — este é um código de PAREAMENTO, não de sessão.
+    // Os dois têm 6 caracteres e são fáceis de confundir, mas são
+    // coisas diferentes: pareamento vincula o aparelho da criança ao
+    // do pai (uma vez); sessão é uma leitura específica.
+    // O app trata /j/<código> como PAREAMENTO (deep_link_service.dart).
+    //
+    // A validação é idêntica à do app, de propósito: se a página
+    // aceitasse algo que o app recusa, mostraríamos em fonte 56px um
+    // código que não funciona em lugar nenhum.
+    const padraoCodigo = /^[A-Z0-9]{6}$/;
+    const codigo = (ehConvite && partes.length >= 2 && padraoCodigo.test(ultimo))
+      ? ultimo
+      : null;
+
+    if (ehConvite) {
+      document.getElementById('painelConvite').classList.remove('oculto');
+
+      if (codigo) {
+        // Mostra o código nos dois lugares (o grandão e o de digitar).
+        document.getElementById('codigo').textContent = codigo;
+        document.getElementById('codigoManual').textContent = codigo;
+        document.getElementById('botaoAbrir').classList.remove('oculto');
+
+        // ===========================================================
+        // O BILHETE DA PLAY STORE — o coração desta página
+        //
+        // O PROBLEMA QUE ISTO RESOLVE:
+        //   Clicar em "Instalar" e abrir o app são dois momentos
+        //   separados, que podem ter dias de distância. Nada viaja
+        //   sozinho de um para o outro. Sem o bilhete, quem instala
+        //   por aqui chega no app sem o código e precisa digitar os
+        //   6 caracteres à mão.
+        //
+        // COMO FUNCIONA:
+        //   A Play Store guarda o que vier no parâmetro "referrer" e
+        //   entrega ao app na PRIMEIRA execução. É a única ponte que
+        //   atravessa a instalação.
+        //
+        // POR QUE utm_term E NÃO utm_content:
+        //   utm_content é o espaço de nomes das ESTÓRIAS (as páginas
+        //   /e/ usam ele desde julho). Um código de convite ali seria
+        //   transformado em minúsculas, passaria no regex de id de
+        //   estória e o app tentaria abrir uma estória inexistente.
+        //   Com utm_term, versões do app anteriores a este recurso
+        //   simplesmente ignoram o bilhete, em silêncio.
+        //
+        // POR QUE encodeURIComponent:
+        //   O bilhete é um endereço dentro de outro endereço. Sem
+        //   codificar, os "&" do bilhete seriam lidos como separadores
+        //   da URL da Play e o bilhete chegaria picado.
+        // ===========================================================
+        const bilhete = 'utm_source=samestoryapp'
+                      + '&utm_medium=join'
+                      + '&utm_term=' + codigo;
+
+        document.getElementById('botaoInstalar').href =
+          'https://play.google.com/store/apps/details'
+          + '?id=com.samestoryapp.app'
+          + '&referrer=' + encodeURIComponent(bilhete);
+
+        // Aponta para a MESMA URL desta página, de propósito: é assim
+        // que o Android intercepta um App Link e abre o app. Se o app
+        // não estiver instalado (o caso normal aqui), o navegador só
+        // recarrega a página — por isso é o botão secundário.
+        document.getElementById('botaoAbrir').href =
+          'https://samestoryapp.com/j/' + codigo;
+
+      } else {
+        // Caminho /j/ sem código válido: esconde tudo que dependeria
+        // dele. O botão de instalar continua — ainda é página útil.
+        document.getElementById('blocoCodigo').classList.add('oculto');
+        document.getElementById('divisorManual').classList.add('oculto');
+        document.getElementById('blocoManual').classList.add('oculto');
+      }
+
+    } else {
+      // Qualquer outro endereço errado do site.
+      document.getElementById('painelErro').classList.remove('oculto');
     }
   </script>
 </body>
