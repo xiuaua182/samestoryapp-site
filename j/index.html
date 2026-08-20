@@ -158,7 +158,7 @@
          válido (ex: alguém abriu samestoryapp.com/j/ sem nada depois).
          Antes a página mostrava um travessão "—" sem explicação. -->
     <div id="blocoCodigo">
-      <div class="codigo-label">Código da sessão</div>
+      <div class="codigo-label">Código do convite</div>
       <div class="codigo" id="codigo">—</div>
     </div>
 
@@ -180,7 +180,7 @@
     <div class="divider">ou</div>
 
     <p class="info">
-      Com o app aberto, digite o código:<br>
+      Se preferir, abra o app e use este código:<br>
       <span class="codigo-manual" id="codigoManual">—</span>
     </p>
   </div>
@@ -199,16 +199,18 @@
     // =================================================================
     // 2) O CÓDIGO É VÁLIDO?
     //
-    // O app sorteia códigos com este alfabeto exato (session_service.dart):
-    //   ABCDEFGHJKLMNPQRSTUVWXYZ23456789
-    // Sem 0/O e sem 1/I, que as pessoas confundem ao ler.
+    // ATENÇÃO — este é um código de PAREAMENTO, não de sessão.
+    // Os dois têm 6 caracteres e são fáceis de confundir, mas são
+    // coisas diferentes: pareamento vincula o aparelho da criança ao
+    // do pai (uma vez); sessão é uma leitura específica.
+    // O app trata /j/<código> como PAREAMENTO (deep_link_service.dart).
     //
-    // Validar AQUI evita dois problemas: mostrar lixo em fonte 56px,
-    // e mandar lixo para dentro do bilhete da Play Store. A faixa de
-    // 4 a 8 caracteres é folgada de propósito — o formato de hoje é 6,
-    // mas a página não deve quebrar se um dia mudar.
+    // Validação idêntica à do app: exatamente 6, letras maiúsculas e
+    // dígitos. Bater o mesmo padrão importa — se a página aceitasse
+    // algo que o app recusa, mostraríamos um código em fonte 56px que
+    // não funciona em lugar nenhum.
     // =================================================================
-    const padraoCodigo = /^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{4,8}$/;
+    const padraoCodigo = /^[A-Z0-9]{6}$/;
     const codigo = padraoCodigo.test(bruto) ? bruto : null;
 
     if (codigo) {
