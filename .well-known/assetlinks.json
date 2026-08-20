@@ -5,7 +5,9 @@
       "namespace": "android_app",
       "package_name": "com.samestoryapp.app",
       "sha256_cert_fingerprints": [
-        "15:5F:D6:B6:60:F1:0B:3A:EB:06:18:2D:44:9B:F3:E2:24:28:C2:AA:29:EA:91:A2:DD:BD:A7:E0:A8:62:BA:C6"
+        "15:5F:D6:B6:60:F1:0B:3A:EB:06:18:2D:44:9B:F3:E2:24:28:C2:AA:29:EA:91:A2:DD:BD:A7:E0:A8:62:BA:C6",
+        "09:F3:D3:82:2C:72:A6:41:6E:AB:47:C0:22:14:5E:7A:31:3E:FD:7A:93:96:C0:21:C4:A9:26:1E:CD:74:6B:07",
+        "EF:3E:CC:11:24:71:D2:79:D2:66:82:A8:C2:F6:63:83:27:26:63:74:D5:FF:A3:1E:D0:4E:23:C1:C5:74:13:97"
       ]
     }
   }
